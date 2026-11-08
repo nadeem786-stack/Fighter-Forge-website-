@@ -1,0 +1,28 @@
+[
+  {
+    "id": "rental_1793995619225_8k7bs7",
+    "eventName": "IPBL Test Event",
+    "eventType": "Boxing Ring (3 ft Pro Competition)",
+    "city": "Delhi",
+    "eventDates": "Dec 10-12",
+    "elevation": "3 ft Pro Competition (100 cm)",
+    "contactName": "Nadeem",
+    "phone": "+917838966576",
+    "notes": "Test rental inquiry",
+    "savedAt": "2026-11-06T20:06:59.226Z"
+  },
+  {
+    "id": "rental_1793995682176_h00hth",
+    "eventName": "hghgv",
+    "eventType": "Boxing Ring (3 ft Pro Competition)",
+    "city": "dd",
+    "eventDates": "44",
+    "elevation": "3 ft Pro Competition (100 cm)",
+    "contactName": "ddd",
+    "phone": "dddddddddddd",
+    "notes": "ddd",
+    "submittedAt": "2026-11-06T20:08:02.171Z",
+    "createdAt": "2026-11-06T20:08:02.171Z",
+    "savedAt": "2026-11-06T20:08:02.176Z"
+  }
+]

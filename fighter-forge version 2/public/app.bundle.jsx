@@ -1,0 +1,5696 @@
+
+/**
+ * FIGHTER FORGE — COMPLETE APPLICATION BUNDLE
+ * Built for Champions
+ */
+
+const { useState, useEffect, useContext, createContext } = React;
+
+// --- MODULE: siteConfig.js ---
+/**
+ * FIGHTER FORGE - MASTER SITE CONFIGURATION
+ * 
+ * ALL business-editable values are located in this ONE file.
+ * Modify WhatsApp number, products, pricing, sizes, heights, stories,
+ * and company details below without touching application code.
+ */
+
+const siteConfig = {
+  // ==========================================
+  // BUSINESS DETAILS
+  // ==========================================
+  brandName: "FIGHTER FORGE",
+  tagline: "BUILT FOR CHAMPIONS.",
+  subTagline: "Premium Boxing Rings & MMA Cages, manufactured for fighters, gyms and pro events.",
+  whatsappNumber: "+917838966576", // Official WhatsApp Number: +91 78389 66576
+  email: "sales@fighterforge.com",
+  phoneDisplay: "+91 78389 66576",
+  address: {
+    line1: "Fighter Forge Manufacturing Arena",
+    line2: "Plot 88, Heavy Industrial Cluster, Phase II",
+    city: "New Delhi",
+    country: "India",
+    pin: "110020"
+  },
+  socials: {
+    instagram: "https://instagram.com/fighterforge",
+    youtube: "https://youtube.com/@fighterforge",
+    facebook: "https://facebook.com/fighterforge",
+    linkedin: "https://linkedin.com/company/fighterforge"
+  },
+  communityWhatsappGroup: "https://chat.whatsapp.com/invite/FighterForgeInsidersPlaceholder",
+
+  // ==========================================
+  // BRAND COLORS & VISUAL TOKENS
+  // ==========================================
+  colors: {
+    fightRed: "#E10B1F",
+    deepBlack: "#0A0A0A",
+    charcoal: "#1A1A1A",
+    pureWhite: "#FFFFFF",
+    steelGray: "#8C8C8C",
+    forgeGold: "#C9A24B",
+    charcoalDark: "#121212",
+    charcoalLight: "#262626"
+  },
+
+  // ==========================================
+  // BRAND COPY & SLOGANS
+  // ==========================================
+  slogans: [
+    "BUILT FOR CHAMPIONS",
+    "FORGED FOR THE FIGHT",
+    "DISCIPLINE BUILDS CHAMPIONS",
+    "THE ARENA STARTS HERE",
+    "NO COMPROMISE. NO SHORTCUTS"
+  ],
+
+  // ==========================================
+  // ELEVATION HEIGHT STANDARDS
+  // ==========================================
+  elevationStandards: {
+    floor: {
+      id: "floor",
+      name: "Floor-Level",
+      heightDescription: "0 ft (Flush ground mounting)",
+      badge: "Gym & Sparring",
+      badgeColor: "steel",
+      description: "Direct ground bolt-down system. Low profile, fast installation, ideal for standard ceiling heights and heavy daily sparring."
+    },
+    training: {
+      id: "1-2ft",
+      name: "1–2 ft Elevated",
+      heightDescription: "1–2 ft (≈30–60 cm)",
+      badge: "Training & Event",
+      badgeColor: "red",
+      description: "Intermediate elevated arena feel. Superior spectator visibility, rigid steel substructure, ideal for showcase gyms, fight nights, and club competitions."
+    },
+    pro: {
+      id: "3ft",
+      name: "3 ft (≈100 cm)",
+      heightDescription: "3 ft (≈100 cm) Official Pro Level",
+      badge: "PRO COMPETITION HEIGHT",
+      badgeColor: "gold",
+      isPro: true,
+      description: "Official sanctioning-body championship elevation. Engineered with multi-truss acoustic absorption, dual safety stairs, and judges platform mount points."
+    }
+  },
+
+  // ==========================================
+  // STATS (ANIMATED COUNTERS ON HOME)
+  // ==========================================
+  stats: [
+    { label: "Arenas Outfitted", value: 340, suffix: "+", description: "Pro gyms & fight venues across India & Asia" },
+    { label: "Pro Championship Builds", value: 120, suffix: "+", description: "Sanctioned MMA & Boxing title fights hosted" },
+    { label: "Structural Steel Grade", value: 100, suffix: "%", description: "Heavy-gauge ISI certified high-tensile steel" },
+    { label: "Customer Satisfaction", value: 99.8, suffix: "%", description: "Direct-from-factory warranty & support" }
+  ],
+
+  // ==========================================
+  // CLIENT LOGOS (MOVING STRIP ON HOMEPAGE)
+  // ==========================================
+  clients: [
+    { name: "APEX COMBAT CLUB", city: "Mumbai", category: "Pro MMA Gym" },
+    { name: "IRON FIST BOXING ACADEMY", city: "Delhi NCR", category: "Elite Boxing" },
+    { name: "TITAN FIGHT LEAGUE", city: "Bangalore", category: "Championship Promotion" },
+    { name: "REDLINE COMBAT SPORTS", city: "Hyderabad", category: "Combat Arena" },
+    { name: "STRIKE FORCE ARENA", city: "Pune", category: "Fight Training Center" },
+    { name: "VALOR WARRIORS MMA", city: "Chandigarh", category: "Championship Cage" },
+    { name: "BLACK BELT SANCTUARY", city: "Goa", category: "Combat Academy" },
+    { name: "RUMBLE TITLE FIGHTS", city: "Kolkata", category: "Boxing Promotion" }
+  ],
+
+  // ==========================================
+  // WHY FIGHTER FORGE (6 FEATURE BLOCKS)
+  // ==========================================
+  whyUs: [
+    {
+      icon: "ShieldAlert",
+      title: "PRO-GRADE STEEL BUILD",
+      description: "Constructed with cold-rolled, heavy-gauge structural steel tubes. Zero wobble, rock-solid anchor posts designed to withstand heavyweight world-class impact."
+    },
+    {
+      icon: "Award",
+      title: "COMPETITION-STANDARD SPECS",
+      description: "Manufactured strictly adhering to Olympic Boxing, IBA, and Unified Rules of MMA dimensions, rope tensions, and safety clearances."
+    },
+    {
+      icon: "Layers",
+      title: "FLOOR & ELEVATED OPTIONS",
+      description: "Available from space-saving floor-level setups up to our flagship 3 ft (100 cm) Pro Competition stage with vibration dampening."
+    },
+    {
+      icon: "Palette",
+      title: "FULLY CUSTOMIZABLE BRANDING",
+      description: "Your gym logo printed high-contrast onto anti-slip canvas, corner pads, vinyl cage rail bumpers, and ring skirts. Own your arena."
+    },
+    {
+      icon: "ShieldCheck",
+      title: "SAFE PADDED FINISH",
+      description: "High-density bonded EVA foam underlayment and heavy-duty ripstop vinyl cushions protect fighters' joints during heavy throws and takedowns."
+    },
+    {
+      icon: "DollarSign",
+      title: "DIRECT-FROM-FACTORY PRICING",
+      description: "We manufacture every weld, bolt, canvas, and pad in-house. No reseller markups, no agency margins—pure direct factory value."
+    }
+  ],
+
+  // ==========================================
+  // HOW IT WORKS (4 STEPS)
+  // ==========================================
+  howItWorks: [
+    {
+      step: "01",
+      title: "CHOOSE YOUR SETUP",
+      description: "Select Boxing Ring or MMA Cage, pick your size, and choose floor-level or elevated height (1-2 ft or 3 ft Pro)."
+    },
+    {
+      step: "02",
+      title: "ADD TO ENQUIRY CART",
+      description: "Bundle multiple arena units or gear items into your enquiry cart with your preferred quantities."
+    },
+    {
+      step: "03",
+      title: "SEND ON WHATSAPP",
+      description: "Click once to dispatch your exact specifications, gym location, and custom requests directly to our head engineer's WhatsApp."
+    },
+    {
+      step: "04",
+      title: "GET PRICE & CONFIRM",
+      description: "Receive instant factory pricing, floor-plan CAD blueprints, delivery timeline, and direct manufacturing confirmation."
+    }
+  ],
+
+  // ==========================================
+  // PRODUCT CATALOG: BOXING RINGS
+  // ==========================================
+  boxingRings: [
+    {
+      id: "ring-floor-01",
+      name: "Floor Boxing Ring",
+      category: "floor",
+      tagline: "Low-Profile Daily Training & Hard Sparring Ring",
+      price: null, // null = Show "PRICE ON WHATSAPP"
+      priceNumeric: 185000,
+      image: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=1200&auto=format&fit=crop",
+      badge: "POPULAR FOR GYMS",
+      elevationType: "Floor-Level",
+      elevationHeight: "0 ft (Flush ground frame)",
+      sizes: ["12×12 ft", "14×14 ft", "16×16 ft", "18×18 ft", "20×20 ft"],
+      defaultSize: "16×16 ft",
+      specs: [
+        "Heavy-duty 4-inch square steel corner posts",
+        "4-strand synthetic leather wrapped competition ropes",
+        "4 heavy corner cushions (1 Red, 1 Blue, 2 White/Black)",
+        "Heavy duty turnbuckles with protective padded sleeves",
+        "Anti-slip commercial heavy canvas with grommets",
+        "Floor bolt anchoring hardware included"
+      ],
+      description: "Designed for gyms wanting pro boxing ring authenticity without requiring elevated structural clearance. Features our signature high-tensile 4-rope system and thick padded corner cushions."
+    },
+    {
+      id: "ring-elevated-training-02",
+      name: "Elevated Boxing Ring (1–2 ft)",
+      category: "elevated",
+      tagline: "Showcase Gym & Club Fight Night Elevation",
+      price: null,
+      priceNumeric: 295000,
+      image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop",
+      badge: "1–2 FT EVENT ELEVATION",
+      elevationType: "1–2 ft Elevated",
+      elevationHeight: "1–2 ft (≈30–60 cm)",
+      heightOptions: ["1 ft (30 cm)", "1.5 ft (45 cm)", "2 ft (60 cm)"],
+      defaultHeight: "2 ft (60 cm)",
+      sizes: ["14×14 ft", "16×16 ft", "18×18 ft", "20×20 ft"],
+      defaultSize: "18×18 ft",
+      specs: [
+        "Heavy I-beam steel interlocking subfloor frame",
+        "Modular quick-connect steel cross members",
+        "30mm sound-dampening acoustic subfloor panels",
+        "High-density 25mm EVA shock absorption underlayment",
+        "1 set of heavy steel access stairs",
+        "Full wraparound branded ring apron skirt"
+      ],
+      description: "The ideal elevated platform for premium combat gyms and club fight events. Elevates fighters into clear view while keeping structural ceiling requirements accessible."
+    },
+    {
+      id: "ring-elevated-pro-03",
+      name: "Elevated Boxing Ring 3 ft Pro Competition",
+      category: "elevated",
+      tagline: "Official Championship Arena Height with Gold Pro Certification",
+      price: null,
+      priceNumeric: 440000,
+      image: "https://images.unsplash.com/photo-1509563459871-33161a0eb649?q=80&w=1200&auto=format&fit=crop",
+      badge: "PRO COMPETITION (3 FT)",
+      isPro: true,
+      elevationType: "3 ft (≈100 cm) Pro Level",
+      elevationHeight: "3 ft (≈100 cm Official Pro Height)",
+      heightOptions: ["3 ft (≈100 cm) Official Pro Height"],
+      defaultHeight: "3 ft (≈100 cm) Official Pro Height",
+      sizes: ["16×16 ft", "18×18 ft", "20×20 ft", "22×22 ft", "24×24 ft Championship"],
+      defaultSize: "20×20 ft",
+      specs: [
+        "Full 3 ft (100 cm) pro championship clearance",
+        "Industrial structural box-truss steel frame",
+        "2 sets of welded steel stairs (Red and Blue corners)",
+        "2 integrated corner stools (swivel or fold-away)",
+        "Heavy acoustic vibration isolation pads on all footing posts",
+        "Heavy-duty ring skirts with custom sponsor logo printing",
+        "International Boxing Federation & Olympic compliance geometry"
+      ],
+      description: "The undisputed apex of fight manufacturing. Built strictly to international championship sanctioning standards with 100 cm elevation, dual fighter staircases, and heavy acoustic dampening."
+    }
+  ],
+
+  // ==========================================
+  // PRODUCT CATALOG: MMA CAGES
+  // ==========================================
+  mmaCages: [
+    {
+      id: "cage-floor-01",
+      name: "Floor MMA Cage (Octagon)",
+      category: "floor",
+      tagline: "Heavy-Gauge 8-Sided Daily Sparring Octagon",
+      price: null,
+      priceNumeric: 260000,
+      image: "https://images.unsplash.com/photo-1517438476312-10d79c077509?q=80&w=1200&auto=format&fit=crop",
+      badge: "PRO GYM FAVORITE",
+      elevationType: "Floor-Level",
+      elevationHeight: "0 ft (Flush ground frame)",
+      shapes: ["Octagon (8-Sided)"],
+      sizes: ["16 ft Diameter", "20 ft Diameter", "24 ft Diameter", "30 ft Pro Diameter"],
+      defaultSize: "20 ft Diameter",
+      specs: [
+        "Heavy steel tubular fence panel frames (6 ft fence height)",
+        "Vinyl-coated heavy 9-gauge steel chainlink mesh (anti-catch)",
+        "8 high-density foam upright post cushions with vinyl covers",
+        "Heavy-duty secure latching steel access door",
+        "Heavy ground anchor locking flanges",
+        "Complete mat and canvas underlay system available"
+      ],
+      description: "The workhorse cage of top MMA fight camps. Mounts flush to the gym floor, delivering zero-sag fence panels and heavy vinyl coating that protects fighters' knuckles and toes during wall grappling."
+    },
+    {
+      id: "cage-elevated-training-02",
+      name: "Elevated MMA Cage (1–2 ft)",
+      category: "elevated",
+      tagline: "Tournament & Fight Night Octagon with Elevated Visibility",
+      price: null,
+      priceNumeric: 395000,
+      image: "https://images.unsplash.com/photo-1555597673-b21d5c935865?q=80&w=1200&auto=format&fit=crop",
+      badge: "1–2 FT ARENA CAGE",
+      elevationType: "1–2 ft Elevated",
+      elevationHeight: "1–2 ft (≈30–60 cm)",
+      heightOptions: ["1 ft (30 cm)", "1.5 ft (45 cm)", "2 ft (60 cm)"],
+      defaultHeight: "2 ft (60 cm)",
+      shapes: ["Octagon (8-Sided)", "Hexagon (6-Sided)"],
+      sizes: ["16 ft Diameter", "20 ft Diameter", "24 ft Diameter", "30 ft Pro Diameter"],
+      defaultSize: "20 ft Diameter",
+      specs: [
+        "Interlocking structural steel floor framework",
+        "Rigid tongue-and-groove acoustic wooden subfloor panels",
+        "Seamless anti-tear vinyl mat with custom center logo",
+        "1 access door with double fail-safe lock mechanism",
+        "1 heavy steel stairway with non-slip treads",
+        "Full 360-degree perimeter tension cabling"
+      ],
+      description: "Elevate your promotion or training academy. Engineered for quick assembly and structural stability, giving spectators an unobstructed view of brutal wall work and takedowns."
+    },
+    {
+      id: "cage-elevated-pro-03",
+      name: "Elevated MMA Cage 3 ft Pro Competition",
+      category: "elevated",
+      tagline: "Unified Rules UFC-Grade Championship Octagon Platform",
+      price: null,
+      priceNumeric: 580000,
+      image: "https://images.unsplash.com/photo-1517438984742-1262db3b32bc?q=80&w=1200&auto=format&fit=crop",
+      badge: "PRO COMPETITION (3 FT)",
+      isPro: true,
+      elevationType: "3 ft (≈100 cm) Pro Level",
+      elevationHeight: "3 ft (≈100 cm Official Championship Height)",
+      heightOptions: ["3 ft (≈100 cm) Championship Height"],
+      defaultHeight: "3 ft (≈100 cm) Championship Height",
+      shapes: ["Octagon (8-Sided)"],
+      sizes: ["20 ft Diameter", "24 ft Diameter", "27 ft Championship", "30 ft Pro Stadium"],
+      defaultSize: "24 ft Diameter",
+      specs: [
+        "Exact 3 ft (100 cm) pro stadium elevation clearance",
+        "Dual heavy security doors (Fighter entry & Medic/Cutman entry)",
+        "2 steel entrance staircases with safety handrails",
+        "Ultra-heavy 100x100mm structural steel corner uprights",
+        "Heavy acoustic subfloor dampening with zero reverberation",
+        "Full vinyl perimeter skirts with sponsor print readiness",
+        "Full certification report for sanctioning athletic commissions"
+      ],
+      description: "The definitive championship arena octagon. Manufactured for televised combat promotions and world-class MMA arenas demanding uncompromising safety, structural rigidity, and broadcast-ready aesthetics."
+    },
+    {
+      id: "cage-hexagon-04",
+      name: "Hexagon MMA Training Cage (Floor / Raised)",
+      category: "floor",
+      tagline: "Compact 6-Sided Training Cage for Space-Constrained Academies",
+      price: null,
+      priceNumeric: 220000,
+      image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop",
+      badge: "COMPACT FOOTPRINT",
+      elevationType: "Floor / 1 ft Optional",
+      elevationHeight: "0–1 ft",
+      shapes: ["Hexagon (6-Sided)"],
+      sizes: ["14 ft Diameter", "16 ft Diameter", "18 ft Diameter"],
+      defaultSize: "16 ft Diameter",
+      specs: [
+        "Space-saving 6-panel geometry",
+        "Quick-latch pin connection system for fast installation",
+        "Heavy 9-gauge smooth vinyl dip mesh",
+        "6 thick bumper pads with gym color customization",
+        "Single outward-opening access door",
+        "Optimized for cage grappling drilling"
+      ],
+      description: "Ideal for martial arts academies that need cage wall training but have limited square footage. Fast to erect and easy to relocate."
+    }
+  ],
+
+  // ==========================================
+  // STORIES / BLOG FOR ATHLETES, RINGS & SEO
+  // ==========================================
+  stories: [
+    {
+      id: "pro-elevation-standard-3ft",
+      slug: "why-3ft-elevated-boxing-rings-are-pro-gold-standard",
+      title: "Why 3 ft (100 cm) Elevated Rings are the Gold Standard for Championship Boxing",
+      category: "Ring Engineering",
+      author: "Vikram Rathore, Lead Arena Structural Engineer",
+      date: "October 24, 2026",
+      readTime: "5 min read",
+      image: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=1200&auto=format&fit=crop",
+      excerpt: "From spectator eye-line physics to judge sightlines and subfloor shock acoustics, discover why sanctioning bodies require 100 cm elevation for title fights.",
+      content: `
+When a world-class fighter steps onto an elevated canvas, milliseconds and millimeters matter. In professional boxing, the height of the platform is far from an aesthetic choice—it is a tightly regulated structural standard.
+
+### 1. The Physics of Spectator & Judge Eye-Levels
+A 3 ft (approximately 100 cm) platform raises the ring canvas precisely into the natural horizontal eye-level of ringside judges and medics sitting in arena seating. When judges view footwork from below, subtle shifts in balance, pivot slips, and low blows become unmistakably visible.
+
+### 2. Acoustic Absorption and Canvas Rebound
+Fighter Forge 3 ft Pro Competition rings incorporate an acoustic vibration-dampening box truss. When two heavyweights clash, standard timber platforms amplify the vibration, causing canvas bounce that fatigues ankle tendons. Our dual-layer subfloor with industrial elastomer dampers absorbs impact while returning firm traction.
+
+### 3. Safety Clearances and Corner Rigidity
+At 100 cm elevation, structural corner posts must resist over 2,200 kg of lateral rope tension. Fighter Forge builds with cold-rolled industrial square steel and heavy base gussets, guaranteeing zero post deflection when fighters lean hard on the ropes.
+      `,
+      tags: ["Boxing Rings", "Pro Arena", "Engineering", "Championship Specs"]
+    },
+    {
+      id: "cage-geometry-octagon-vs-hexagon",
+      slug: "octagon-vs-hexagon-engineering-cage-geometry",
+      title: "Octagon vs Hexagon: Engineering Cage Geometry for Fighter Safety and Flow",
+      category: "Cage Standards",
+      author: "Coach Aryan Sen, Combat Sports Director",
+      date: "October 18, 2026",
+      readTime: "6 min read",
+      image: "https://images.unsplash.com/photo-1517438476312-10d79c077509?q=80&w=1200&auto=format&fit=crop",
+      excerpt: "How wall angles impact takedown defense, corner trapping, and fighter safety. A complete breakdown for gym owners planning their cage installation.",
+      content: `
+Choosing the right cage geometry is one of the most critical investments an MMA gym owner makes. While the Octagon remains the worldwide standard made famous by the UFC, 6-sided Hexagons have carved out a strategic training role.
+
+### The Octagon (135° Angles)
+The 8-sided geometry creates wide 135-degree interior angles. This prevents fighters from getting trapped in tight 90-degree corners, forcing continuous circular movement, lateral pivoting, and technical wall-walks. It mimics the exact arena dimensions fighters face in professional bouts.
+
+### The Hexagon (120° Angles)
+For gyms with space constraints under 600 sq ft, the 6-sided cage allows an effective training radius with fewer modular sections. The slightly tighter 120-degree angles are exceptional for teaching takedown containment and corner cutting during sparring drills.
+
+### Mesh Tension and Vinyl Dipping
+Regardless of shape, wire gauge makes or breaks safety. Fighter Forge utilizes heavy 9-gauge steel wire dipped in smooth, medical-grade vinyl. This eliminates burrs that cause cuts during takedown drives and ensures zero finger-snag.
+      `,
+      tags: ["MMA Cages", "Cage Geometry", "Gym Planning", "Fighter Safety"]
+    },
+    {
+      id: "pro-fight-gym-equipment-blueprint",
+      slug: "from-gym-to-glory-choosing-arena-grade-equipment",
+      title: "From Gym to Glory: The Blueprint for Choosing Elite Combat Sports Equipment",
+      category: "Athletes & Fight Science",
+      author: "Devraj Chauhan, Strength & Combat Conditioning",
+      date: "October 12, 2026",
+      readTime: "4 min read",
+      image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop",
+      excerpt: "Elite athletes don't train on wobbling equipment. Learn how top-tier gyms build training environments that forge national and world champions.",
+      content: `
+A fight gym is defined by its steel. When fighters enter an arena, confidence comes from familiarity with professional-grade surfaces.
+
+### 1. Eliminating Wobble
+Cheap imported rings shake on every step. That vibration ruins rhythm and telegraphs movement. Fighter Forge interlocking structural cross-beams eliminate 98% of sway, creating an unwavering stage.
+
+### 2. High-Density EVA Foam vs Cheap Polyethylene
+Standard foam bottoms out within six months under heavy sparring, exposing plywood beneath. Fighter Forge specifies 25mm to 30mm high-density cross-linked EVA foam that maintains shock absorption for years.
+
+### 3. The Psychology of Custom Branding
+When fighters see their team insignia emblazoned sharply across the canvas and corner pads, pride and discipline surge. Our dye-sublimated non-slip vinyls maintain grip even when drenched in sweat.
+      `,
+      tags: ["Gym Blueprint", "Combat Athletes", "Pro Gear", "Discipline"]
+    },
+    {
+      id: "inside-the-steel-manufacturing",
+      slug: "inside-the-steel-what-separates-fighter-forge-manufacturing",
+      title: "Inside the Steel: What Separates Fighter Forge from Commercial Clones",
+      category: "Ring Engineering",
+      author: "Fighter Forge Fabrication Lab",
+      date: "October 05, 2026",
+      readTime: "5 min read",
+      image: "https://images.unsplash.com/photo-1555597673-b21d5c935865?q=80&w=1200&auto=format&fit=crop",
+      excerpt: "A behind-the-scenes look at our laser cutting, precision robotic welding, high-tensile turnbuckles, and zero-compromise quality tests.",
+      content: `
+We founded Fighter Forge with one rule: **No Compromise. No Shortcuts.**
+
+Every weld in our New Delhi manufacturing facility is executed to structural architectural standards. We don't use hollow sheet-metal tubes that dent when a 90kg fighter crashes into them. We use certified structural tubing, heavy gusset plates, and electrostatically powder-coated finishes that resist sweat corrosion for a lifetime.
+
+When you purchase Fighter Forge, you deal directly with the engineers who cut, weld, and inspect your arena.
+      `,
+      tags: ["Manufacturing", "Steel Fabrication", "Quality Control", "Made In India"]
+    },
+    {
+      id: "upcoming-combat-gear-ergonomics",
+      slug: "upcoming-gear-science-behind-fighter-forge-boxing-gloves",
+      title: "Upcoming Combat Gear: The Science Behind Fighter Forge Ergonomic Gloves & Armor",
+      category: "Arena News & Events",
+      author: "Fighter Forge R&D Team",
+      date: "September 28, 2026",
+      readTime: "4 min read",
+      image: "https://images.unsplash.com/photo-1509563459871-33161a0eb649?q=80&w=1200&auto=format&fit=crop",
+      excerpt: "A preview of our upcoming pro sparring gloves, shin guards, and combat duffels—engineered with multi-layered shock dissipation foam.",
+      content: `
+After outfitting hundreds of fight gyms with rings and cages, our fighters demanded gear forged with the same brutal standard.
+
+Coming soon from Fighter Forge:
+- **Pro Sparring Boxing Gloves (12oz, 14oz, 16oz):** Anatomical fist alignment with triple-density injection foam and reinforced wrist stability.
+- **MMA Competition Gloves:** Ergonomic curve to minimize eye poke risk while maximizing thumb articulation for submissions.
+- **Heavy Combat Duffel Bags:** Military-grade ripstop fabric with ventilated wet gear compartments.
+
+Join our Insider WhatsApp Group or submit your gear design ideas below to get early prototype testing access!
+      `,
+      tags: ["Combat Gear", "Boxing Gloves", "Coming Soon", "Gear R&D"]
+    }
+  ],
+
+  // ==========================================
+  // COMING SOON GEAR & COMMUNITY INITIATIVES
+  // ==========================================
+  upcomingGear: {
+    title: "GEAR LOCKER: COMING SOON",
+    subtitle: "BOXING GLOVES & MORE COMBAT GEAR",
+    description: "We are finalizing our pro-grade sparring gloves, fight shorts, shin armor, and heavy combat bags. Built with genuine leather, high-density multi-layer foam, and the Fighter Forge shield.",
+    categories: [
+      { name: "Pro Boxing Gloves (12oz, 14oz, 16oz)", status: "Prototype Testing" },
+      { name: "MMA Pro Sparring & Fight Gloves", status: "Design Finalized" },
+      { name: "Heavy Combat Duffels & Gear Bags", status: "Materials Sourcing" },
+      { name: "Muay Thai & MMA Shin Guards", status: "Engineering Phase" }
+    ]
+  },
+
+  // ==========================================
+  // EVENT RENTALS (NATIONWIDE INDIA - IPBL & PRO MMA)
+  // ==========================================
+  eventRentals: {
+    badge: "NATIONWIDE EVENT RENTALS",
+    title: "RENT BOXING RINGS & MMA CAGES FOR EVENTS IN INDIA",
+    tagline: "Official Arena Rental Partner for IPBL (India Pro Boxing League) & Pro MMA Events",
+    description: "We provide competition-standard Boxing Rings and MMA Cages on rental for professional events across India—including IPBL (India Pro Boxing League), state championships, and mid-pro to UFC-level fight promotions. Complete package includes structural steel arena, shock-absorbing platform, on-site setup crew, and teardown.",
+    features: [
+      "Official IPBL (India Pro Boxing League) standard rings",
+      "Unified Rules 20ft & 24ft Elevated Championship MMA Octagons",
+      "Full professional setup, leveling & dismantle crew included",
+      "Custom sponsor branding available for canvas, skirts & corner pads",
+      "Heavy acoustic subfloor dampening for zero camera bounce",
+      "Nationwide express logistics & on-time event dispatch across India"
+    ],
+    supportedEvents: [
+      "IPBL (India Pro Boxing League)",
+      "Pro MMA Fight Nights & Title Fights",
+      "State & National Boxing Tournaments",
+      "Broadcast, OTT & Televised Combat Shows",
+      "Collegiate & Invitational Fight Galas"
+    ]
+  }
+};
+
+
+// --- MODULE: whatsapp.js ---
+
+/**
+ * Format phone number for WhatsApp wa.me link
+ * Removes +, spaces, dashes, parentheses
+ */
+function cleanPhoneNumber(phone) {
+  if (!phone) return "917838966576";
+  return phone.replace(/[^0-9]/g, "");
+}
+
+/**
+ * Generate WhatsApp URL
+ */
+function createWhatsAppUrl(message, phone = siteConfig.whatsappNumber) {
+  const cleanPhone = cleanPhoneNumber(phone);
+  const encodedText = encodeURIComponent(message.trim());
+  return `https://wa.me/${cleanPhone}?text=${encodedText}`;
+}
+
+/**
+ * Open WhatsApp link in new tab / app
+ */
+function openWhatsApp(message, phone = siteConfig.whatsappNumber) {
+  const url = createWhatsAppUrl(message, phone);
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+/**
+ * Format cart items and customer details into a professional WhatsApp enquiry message
+ */
+function formatCartEnquiryMessage({ items, customer }) {
+  const dateStr = new Date().toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
+
+  let lines = [
+    `🥊 *FIGHTER FORGE — ARENA EQUIPMENT ENQUIRY*`,
+    `Date: ${dateStr}`,
+    `----------------------------------------`,
+    `Hello Fighter Forge, I would like an official factory quotation for the following arena equipment:`,
+    ``
+  ];
+
+  items.forEach((item, index) => {
+    lines.push(`*${index + 1}) ${item.name.toUpperCase()}*`);
+    if (item.selectedSize) {
+      lines.push(`   • Size: ${item.selectedSize}`);
+    }
+    if (item.selectedHeight) {
+      lines.push(`   • Elevation: ${item.selectedHeight}`);
+    } else if (item.elevationType) {
+      lines.push(`   • Elevation: ${item.elevationType}`);
+    }
+    if (item.selectedShape) {
+      lines.push(`   • Shape: ${item.selectedShape}`);
+    }
+    lines.push(`   • Quantity: ${item.quantity || 1}`);
+    if (item.priceNumeric && item.priceNumeric > 0) {
+      const formattedPrice = new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        maximumFractionDigits: 0
+      }).format(item.priceNumeric * (item.quantity || 1));
+      lines.push(`   • Estimated Value: ${formattedPrice}`);
+    } else {
+      lines.push(`   • Price: Quote on WhatsApp`);
+    }
+    lines.push(``);
+  });
+
+  lines.push(`----------------------------------------`);
+  lines.push(`*CUSTOMER & VENUE DETAILS:*`);
+  lines.push(`• Name: ${customer.name || "Not provided"}`);
+  lines.push(`• Phone: ${customer.phone || "Not provided"}`);
+  lines.push(`• City / Location: ${customer.city || "Not provided"}`);
+  if (customer.notes && customer.notes.trim()) {
+    lines.push(`• Specific Requirements / Notes: ${customer.notes.trim()}`);
+  }
+  lines.push(`----------------------------------------`);
+  lines.push(`Please share factory pricing, delivery lead time, and installation details.`);
+  lines.push(`*BUILT FOR CHAMPIONS.*`);
+
+  return lines.join("\n");
+}
+
+/**
+ * Format custom build specifications into WhatsApp message
+ */
+function formatCustomEnquiryMessage({ customData, customer, uploadedUrls = [] }) {
+  const isRing = customData.type === "ring";
+  const typeLabel = isRing ? "CUSTOM BOXING RING" : "CUSTOM MMA CAGE";
+
+  let lines = [
+    `🔨 *FIGHTER FORGE — CUSTOM BUILD SPECIFICATIONS*`,
+    `Equipment: *${typeLabel}*`,
+    `----------------------------------------`,
+    `Hello Fighter Forge, I want a custom-built arena manufactured to our specifications:`,
+    ``
+  ];
+
+  if (isRing) {
+    lines.push(`*RING SPECIFICATIONS:*`);
+    lines.push(`• Elevation Type: ${customData.elevation || "Floor / 1-2 ft / 3 ft Pro"}`);
+    lines.push(`• Dimensions / Size: ${customData.size || "Custom"}`);
+    lines.push(`• Rope Configuration: ${customData.ropeColors || "Standard"}`);
+    lines.push(`• Canvas / Mat Color: ${customData.canvasColor || "Black"}`);
+    lines.push(`• Corner Pads Color: ${customData.cornerPadsColor || "Custom"}`);
+    lines.push(`• Gym Logo Branding on Mat/Pads: ${customData.branding ? "YES (Logo attached)" : "NO"}`);
+    lines.push(`• Quantity: ${customData.quantity || 1}`);
+  } else {
+    lines.push(`*MMA CAGE SPECIFICATIONS:*`);
+    lines.push(`• Cage Geometry: ${customData.shape || "Octagon"}`);
+    lines.push(`• Diameter / Footprint: ${customData.diameter || "20 ft Diameter"}`);
+    lines.push(`• Elevation Type: ${customData.elevation || "Floor-Level / Elevated"}`);
+    lines.push(`• Fence Height: ${customData.fenceHeight || "6 ft Standard"}`);
+    lines.push(`• Number of Doors: ${customData.doors || "1 Door"}`);
+    lines.push(`• Padding & Post Bumpers: ${customData.paddingColor || "Black"}`);
+    lines.push(`• Mat Color & Center Logo: ${customData.branding ? "YES (Logo attached)" : "NO"}`);
+    lines.push(`• Steps / Stairs Included: ${customData.stairs ? "YES" : "NO"}`);
+    lines.push(`• Quantity: ${customData.quantity || 1}`);
+  }
+
+  if (customData.additionalNotes && customData.additionalNotes.trim()) {
+    lines.push(``);
+    lines.push(`*ADDITIONAL GYM / VENUE NOTES:*`);
+    lines.push(`${customData.additionalNotes.trim()}`);
+  }
+
+  if (uploadedUrls && uploadedUrls.length > 0) {
+    lines.push(``);
+    lines.push(`*ATTACHED REFERENCE PHOTOS & LOGO LINKS:*`);
+    uploadedUrls.forEach((url, i) => {
+      lines.push(`• Photo ${i + 1}: ${url}`);
+    });
+  }
+
+  lines.push(``);
+  lines.push(`----------------------------------------`);
+  lines.push(`*CLIENT CONTACT:*`);
+  lines.push(`• Name: ${customer.name || "Not provided"}`);
+  lines.push(`• Phone: ${customer.phone || "Not provided"}`);
+  lines.push(`• City / State: ${customer.city || "Not provided"}`);
+  lines.push(`----------------------------------------`);
+  lines.push(`Please review these specs and send an engineered quote on WhatsApp.`);
+  lines.push(`*DISCIPLINE BUILDS CHAMPIONS.*`);
+
+  return lines.join("\n");
+}
+
+/**
+ * Standard greeting for floating WhatsApp button
+ */
+function getFloatingWhatsAppGreeting() {
+  return `Hello Fighter Forge, I'm looking for a premium Boxing Ring / MMA Cage for my gym/event. Please share catalog, sizing advice, and pricing details.`;
+}
+
+/**
+ * Gear idea message
+ */
+function formatGearIdeaMessage({ gearCategory, name, phone, city, idea }) {
+  return [
+    `🥊 *FIGHTER FORGE — GEAR LOCKER COMMUNITY IDEA*`,
+    `----------------------------------------`,
+    `Hello Fighter Forge Team, I have a combat gear suggestion for your upcoming SKUs:`,
+    ``,
+    `• Gear Category: ${gearCategory}`,
+    `• Fighter / Coach Name: ${name}`,
+    `• Phone: ${phone}`,
+    `• City: ${city}`,
+    `• Concept / Ideas: ${idea}`,
+    `----------------------------------------`,
+    `Looking forward to the launch!`
+  ].join("\n");
+}
+
+/**
+ * Format event rental request for WhatsApp (IPBL & Pro MMA events across India)
+ */
+function formatEventRentalMessage({ eventName, eventType, city, eventDates, elevation, notes, contactName, phone }) {
+  return [
+    `🏟️ *FIGHTER FORGE — ARENA RENTAL ENQUIRY (INDIA)*`,
+    `----------------------------------------`,
+    `Hello Fighter Forge (+91 78389 66576), I want to rent a professional arena for an upcoming combat event:`,
+    ``,
+    `• Event / Promotion: ${eventName || "IPBL / Fight Night"}`,
+    `• Arena Required: ${eventType || "Boxing Ring / MMA Octagon"}`,
+    `• Height / Elevation: ${elevation || "3 ft Pro Competition (100 cm)"}`,
+    `• Event Location / City: ${city || "Across India"}`,
+    `• Event Dates / Days: ${eventDates || "Upcoming"}`,
+    `• Contact Person: ${contactName || "Promoter / Matchmaker"}`,
+    `• Contact Phone: ${phone || "+91 78389 66576"}`,
+    notes ? `• Special Notes: ${notes}` : `• Services: Full arena transport, on-site setup crew, and teardown.`,
+    `----------------------------------------`,
+    `Please share rental package pricing, transport logistics, and date availability.`,
+    `*BUILT FOR CHAMPIONS.*`
+  ].join("\n");
+}
+
+/**
+ * Quick direct greeting for rental inquiries
+ */
+function getQuickRentalGreeting(arenaType = "Boxing Ring / MMA Cage") {
+  return `Hello Fighter Forge (+91 78389 66576), I want to rent a ${arenaType} for an upcoming combat sports event in India (IPBL / MMA Fight Night). Please share rental packages, pricing, and availability.`;
+}
+
+
+// --- MODULE: api.js ---
+/**
+ * Backend API Client for Fighter Forge
+ * Communicates with FastAPI / Node server with automatic localStorage fallback
+ */
+
+const API_BASE = window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
+  ? window.location.origin
+  : "";
+
+/**
+ * Save standard enquiry (cart checkout) to MongoDB / backend
+ */
+async function saveCartEnquiry(enquiryData) {
+  try {
+    const response = await fetch(`${API_BASE}/api/enquiries`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ...enquiryData,
+        createdAt: new Date().toISOString()
+      })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return { success: true, data };
+    }
+  } catch (error) {
+    console.warn("Backend API not reachable. Saving to local backup:", error);
+  }
+
+  // Fallback: persist in localStorage backup
+  try {
+    const existing = JSON.parse(localStorage.getItem("fighter_forge_enquiries_backup") || "[]");
+    existing.push({
+      ...enquiryData,
+      id: "local_" + Date.now(),
+      createdAt: new Date().toISOString()
+    });
+    localStorage.setItem("fighter_forge_enquiries_backup", JSON.stringify(existing));
+  } catch (e) {
+    console.error("Local backup storage error:", e);
+  }
+
+  return { success: true, isLocalBackup: true };
+}
+
+/**
+ * Upload reference photos and submit custom arena build enquiry
+ */
+async function submitCustomEnquiry(formData) {
+  try {
+    const response = await fetch(`${API_BASE}/api/custom-enquiry`, {
+      method: "POST",
+      body: formData // multipart/form-data
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return { success: true, data, uploadedUrls: data.uploadedUrls || [] };
+    }
+  } catch (error) {
+    console.warn("Custom enquiry API not reachable, proceeding with local fallback:", error);
+  }
+
+  // If offline, extract photo names for display in WhatsApp message
+  const uploadedUrls = [];
+  return {
+    success: true,
+    isLocalBackup: true,
+    uploadedUrls
+  };
+}
+
+/**
+ * Submit gear idea to backend
+ */
+async function submitGearIdea(ideaData) {
+  try {
+    const response = await fetch(`${API_BASE}/api/gear-ideas`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ...ideaData,
+        createdAt: new Date().toISOString()
+      })
+    });
+
+    if (response.ok) {
+      return { success: true };
+    }
+  } catch (error) {
+    console.warn("Could not reach backend for gear ideas:", error);
+  }
+  return { success: true, isLocalBackup: true };
+}
+
+/**
+ * Save event rental enquiry to MongoDB / backend
+ */
+async function saveRentalEnquiry(rentalData) {
+  try {
+    const response = await fetch(`${API_BASE}/api/rentals`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ...rentalData,
+        createdAt: new Date().toISOString()
+      })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return { success: true, data };
+    }
+  } catch (error) {
+    console.warn("Backend API not reachable. Saving rental enquiry to local backup:", error);
+  }
+
+  // Fallback: persist in localStorage backup
+  try {
+    const existing = JSON.parse(localStorage.getItem("fighter_forge_rentals_backup") || "[]");
+    existing.push({
+      ...rentalData,
+      id: "rental_local_" + Date.now(),
+      createdAt: new Date().toISOString()
+    });
+    localStorage.setItem("fighter_forge_rentals_backup", JSON.stringify(existing));
+  } catch (e) {
+    console.error("Local rental backup storage error:", e);
+  }
+
+  return { success: true, isLocalBackup: true };
+}
+
+
+// --- MODULE: CartContext.jsx ---
+
+const CartContext = createContext();
+
+function CartProvider({ children }) {
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const stored = localStorage.getItem('fighter_forge_cart');
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      console.error('Error loading cart from localStorage', e);
+      return [];
+    }
+  });
+
+  const [toast, setToast] = useState(null); // { message, title, link }
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('fighter_forge_cart', JSON.stringify(cartItems));
+    } catch (e) {
+      console.error('Error saving cart to localStorage', e);
+    }
+  }, [cartItems]);
+
+  const showToast = (title, message = '', link = null) => {
+    setToast({ title, message, link, id: Date.now() });
+  };
+
+  const hideToast = () => {
+    setToast(null);
+  };
+
+  const addToCart = (product, options = {}) => {
+    const selectedSize = options.size || product.defaultSize || (product.sizes ? product.sizes[0] : null);
+    const selectedHeight = options.height || product.defaultHeight || (product.heightOptions ? product.heightOptions[0] : (product.elevationHeight || null));
+    const selectedShape = options.shape || product.defaultShape || (product.shapes ? product.shapes[0] : null);
+    const quantity = options.quantity || 1;
+
+    setCartItems(prev => {
+      // Find if identical configuration exists
+      const existingIndex = prev.findIndex(item => 
+        item.id === product.id &&
+        item.selectedSize === selectedSize &&
+        item.selectedHeight === selectedHeight &&
+        item.selectedShape === selectedShape
+      );
+
+      if (existingIndex > -1) {
+        const updated = [...prev];
+        updated[existingIndex] = {
+          ...updated[existingIndex],
+          quantity: updated[existingIndex].quantity + quantity
+        };
+        return updated;
+      }
+
+      const newItem = {
+        cartId: `${product.id}_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+        id: product.id,
+        name: product.name,
+        category: product.category,
+        image: product.image,
+        price: product.price,
+        priceNumeric: product.priceNumeric,
+        elevationType: product.elevationType,
+        selectedSize,
+        selectedHeight,
+        selectedShape,
+        quantity
+      };
+      return [...prev, newItem];
+    });
+
+    showToast(
+      'ADDED TO ENQUIRY CART',
+      `${product.name} (${selectedSize || ''}${selectedHeight ? ' • ' + selectedHeight : ''}) added.`,
+      '/cart'
+    );
+  };
+
+  const updateQuantity = (cartId, quantity) => {
+    if (quantity <= 0) {
+      removeFromCart(cartId);
+      return;
+    }
+    setCartItems(prev => prev.map(item => item.cartId === cartId ? { ...item, quantity } : item));
+  };
+
+  const removeFromCart = (cartId) => {
+    setCartItems(prev => prev.filter(item => item.cartId !== cartId));
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
+  const totalItems = cartItems.reduce((acc, item) => acc + (item.quantity || 1), 0);
+
+  const openQuickView = (product) => {
+    setQuickViewProduct(product);
+  };
+
+  const closeQuickView = () => {
+    setQuickViewProduct(null);
+  };
+
+  return (
+    <CartContext.Provider value={{
+      cartItems,
+      addToCart,
+      updateQuantity,
+      removeFromCart,
+      clearCart,
+      totalItems,
+      toast,
+      showToast,
+      hideToast,
+      quickViewProduct,
+      openQuickView,
+      closeQuickView
+    }}>
+      {children}
+    </CartContext.Provider>
+  );
+}
+
+function useCart() {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error('useCart must be used within a CartProvider');
+  }
+  return context;
+}
+
+
+// --- MODULE: ClientLogosMarquee.jsx ---
+
+
+function ClientLogosMarquee() {
+  // Duplicate array for seamless infinite marquee loop
+  const clientList = [...siteConfig.clients, ...siteConfig.clients];
+
+  return (
+    <div className="relative py-8 bg-[#0D0D0D] border-y border-zinc-800/80 overflow-hidden">
+      {/* Label on left on desktop */}
+      <div className="max-w-7xl mx-auto px-4 mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="diagonal-slash-pair">
+            <span></span>
+            <span></span>
+          </div>
+          <span className="text-xs font-bold uppercase tracking-[0.25em] text-zinc-400">
+            TRUSTED BY ELITE ARENAS, PRO FIGHT CAMPS & CHAMPIONSHIP PROMOTIONS
+          </span>
+        </div>
+        <div className="hidden md:flex items-center gap-2 text-xs text-[#E10B1F] font-bold tracking-widest">
+          <span>FACTORY DIRECT BUILDS</span>
+          <span>•</span>
+          <span>NATIONWIDE DISPATCH</span>
+        </div>
+      </div>
+
+      {/* Marquee Track Moving from Right to Left */}
+      <div className="flex overflow-hidden select-none mask-gradient-x">
+        <div className="animate-marquee-left flex items-center gap-6 py-2">
+          {clientList.map((client, idx) => (
+            <div
+              key={`${client.name}-${idx}`}
+              className="flex items-center gap-3 bg-[#161616] hover:bg-[#1f1f1f] border border-zinc-800 hover:border-[#E10B1F]/40 px-5 py-3 transition-all duration-200 cursor-default shrink-0 group"
+              style={{
+                clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+              }}
+            >
+              {/* Shield Icon Accent */}
+              <div className="w-8 h-8 rounded bg-black/60 border border-zinc-700 group-hover:border-[#E10B1F] flex items-center justify-center shrink-0 transition-colors">
+                <span className="text-[#E10B1F] font-display text-sm font-bold">FF</span>
+              </div>
+
+              <div>
+                <div className="font-display text-sm tracking-wider text-white group-hover:text-[#E10B1F] transition-colors whitespace-nowrap">
+                  {client.name}
+                </div>
+                <div className="flex items-center gap-2 text-[11px] text-zinc-400 font-sans tracking-wide">
+                  <span>{client.city}</span>
+                  <span className="text-zinc-600">•</span>
+                  <span className="text-zinc-500">{client.category}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+// --- MODULE: SloganMarquee.jsx ---
+
+
+function SloganMarquee() {
+  const slogansCombined = [...siteConfig.slogans, ...siteConfig.slogans, ...siteConfig.slogans];
+
+  return (
+    <div className="relative bg-[#E10B1F] py-3.5 overflow-hidden text-black select-none shadow-lg">
+      <div className="flex animate-marquee-left whitespace-nowrap items-center">
+        {slogansCombined.map((slogan, index) => (
+          <div key={index} className="flex items-center mx-6">
+            <span className="font-display text-lg sm:text-xl font-bold tracking-widest text-black">
+              {slogan}
+            </span>
+            <span className="mx-6 text-black/60 font-black text-xl">✦</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+// --- MODULE: ElevationDiagram.jsx ---
+
+
+
+function ElevationDiagram() {
+  const [selectedElevation, setSelectedElevation] = useState('3ft');
+
+  const elevations = [
+    {
+      id: 'floor',
+      title: 'FLOOR-LEVEL',
+      height: '0 ft (Flush ground frame)',
+      badge: 'TRAINING & SPARRING',
+      badgeColor: 'border-zinc-600 text-zinc-300 bg-zinc-900',
+      description: 'Mounts directly to gym floor. Perfect for standard ceiling heights (under 11 ft) and heavy daily training without elevated steps.',
+      features: [
+        'Direct bolt-down floor posts',
+        'Zero structural ceiling height conflict',
+        'Easy fighter access without stairs',
+        'Fast 4-hour setup or teardown'
+      ],
+      idealFor: 'Commercial Fight Gyms, Sparring Zones, Conditioning Academies',
+      diagramHeightPercent: '12%'
+    },
+    {
+      id: '1-2ft',
+      title: '1–2 FT ELEVATED',
+      height: '1–2 ft (≈30–60 cm)',
+      badge: 'EVENT & SHOWCASE',
+      badgeColor: 'border-[#E10B1F] text-[#E10B1F] bg-[#E10B1F]/10',
+      description: 'The preferred arena sweet spot for fight nights, showcase academies, and club tournaments. Elevates action for clear crowd sightlines.',
+      features: [
+        'Interlocking structural steel subframe',
+        'Sound-dampening acoustic subfloor panels',
+        '1 welded non-slip access staircase',
+        'Full 360° branded perimeter skirt'
+      ],
+      idealFor: 'Showcase Combat Gyms, Club Tournaments, Media Sparring',
+      diagramHeightPercent: '45%'
+    },
+    {
+      id: '3ft',
+      title: '3 FT (≈100 CM) PRO LEVEL',
+      height: '3 ft (≈100 cm) Official Pro Level',
+      badge: 'PRO COMPETITION HEIGHT',
+      isPro: true,
+      badgeColor: 'border-[#C9A24B] text-[#C9A24B] bg-[#C9A24B]/15',
+      description: 'Official sanctioning-body championship elevation. Engineered strictly for national & international title bouts, arena fight leagues, and TV broadcasts.',
+      features: [
+        'Official IBA & Olympic Boxing clearance',
+        'Unified MMA Rules certified 100 cm platform',
+        'Dual fighter entrance stairs (Red & Blue corners)',
+        'Heavy industrial box-truss vibration dampening',
+        'Judge table line-of-sight elevation geometry'
+      ],
+      idealFor: 'Championship Fight Leagues, Televised Arenas, Stadium Title Bouts',
+      diagramHeightPercent: '85%'
+    }
+  ];
+
+  const current = elevations.find(e => e.id === selectedElevation) || elevations[2];
+
+  const handleEnquireHeight = () => {
+    openWhatsApp(
+      `Hello Fighter Forge, I'm reviewing your Elevation Standards. I would like a quote for a ${current.title} (${current.height}) arena setup.`
+    );
+  };
+
+  return (
+    <section className="relative py-20 bg-[#121212] border-t border-zinc-800 text-white overflow-hidden">
+      {/* Background Watermark */}
+      <img
+        src="./assets/fighter-forge-shield.png"
+        alt=""
+        aria-hidden="true"
+        className="shield-watermark left-[-10%] top-[10%] w-[500px]"
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-zinc-900 border border-zinc-700 text-xs font-bold tracking-widest text-zinc-300 uppercase mb-3">
+            <span className="w-1.5 h-1.5 bg-[#E10B1F]"></span>
+            ENGINEERING SPECIFICATION
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-display tracking-tight text-white uppercase">
+            ELEVATION STANDARDS & ARENA HEIGHTS
+          </h2>
+          <p className="mt-3 text-zinc-400 text-sm sm:text-base leading-relaxed">
+            Every arena serves a distinct battleground. Choose between low-profile floor installations, intermediate 1–2 ft event platforms, or our flagship 3 ft (100 cm) Pro Championship stage.
+          </p>
+        </div>
+
+        {/* 3 Height Selector Tabs */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+          {elevations.map((elev) => {
+            const isSelected = selectedElevation === elev.id;
+            return (
+              <button
+                key={elev.id}
+                onClick={() => setSelectedElevation(elev.id)}
+                className={`relative text-left p-5 transition-all duration-300 border ${
+                  isSelected
+                    ? elev.isPro
+                      ? 'bg-[#1C1810] border-[#C9A24B] glow-gold'
+                      : 'bg-[#1A1A1A] border-[#E10B1F] glow-red'
+                    : 'bg-[#161616] border-zinc-800 hover:border-zinc-700'
+                }`}
+                style={{
+                  clipPath: 'polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)'
+                }}
+              >
+                {/* Gold or Red Top Stripe */}
+                {isSelected && (
+                  <div
+                    className={`absolute top-0 left-0 right-0 h-1 ${
+                      elev.isPro ? 'bg-[#C9A24B]' : 'bg-[#E10B1F]'
+                    }`}
+                  />
+                )}
+
+                <div className="flex items-center justify-between mb-2">
+                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded uppercase tracking-wider border ${elev.badgeColor}`}>
+                    {elev.badge}
+                  </span>
+                  {elev.isPro && (
+                    <span className="text-[#C9A24B] text-xs font-bold">★ GOLD PRO</span>
+                  )}
+                </div>
+
+                <div className="text-xl font-display text-white tracking-wider">
+                  {elev.title}
+                </div>
+                <div className="text-xs text-zinc-400 font-semibold mt-1">
+                  {elev.height}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Main Side-View Diagram & Engineering Detail Box */}
+        <div
+          className={`relative p-6 sm:p-10 border transition-all duration-300 ${
+            current.isPro
+              ? 'bg-gradient-to-br from-[#1A1712] to-[#121212] border-[#C9A24B]/60'
+              : 'bg-[#181818] border-zinc-800'
+          }`}
+          style={{
+            clipPath: 'polygon(16px 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%, 0% 16px)'
+          }}
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Visual Side-View Height Diagram (Col 1-6) */}
+            <div className="lg:col-span-6 bg-[#0E0E0E] border border-zinc-800/80 p-6 rounded relative overflow-hidden">
+              <div className="flex items-center justify-between pb-3 border-b border-zinc-800 text-xs font-bold uppercase tracking-wider text-zinc-400">
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#E10B1F]"></span>
+                  SIDE-VIEW ELEVATION BLUEPRINT
+                </span>
+                <span className="text-zinc-500">SCALE: 1:10</span>
+              </div>
+
+              {/* Graphical Blueprint Canvas */}
+              <div className="relative h-64 sm:h-72 w-full mt-4 flex flex-col justify-end">
+                {/* Horizontal Arena Ceiling Reference */}
+                <div className="absolute top-4 left-0 right-0 border-b border-dashed border-zinc-700/60 flex items-center justify-between text-[10px] text-zinc-500 font-mono px-2">
+                  <span>OVERHEAD LIGHTING RIG REFERENCE</span>
+                  <span>14–16 FT CLEARANCE</span>
+                </div>
+
+                {/* Judge Sightline Laser (When 3ft Pro) */}
+                {current.id === '3ft' && (
+                  <div className="absolute top-[48%] left-0 right-0 border-b border-dotted border-[#C9A24B]/70 flex items-center justify-between text-[9px] text-[#C9A24B] font-mono px-2 z-20">
+                    <span>EYE-LINE: SITTING JUDGES & SPECTATOR ROW</span>
+                    <span>100 CM EYE LEVEL</span>
+                  </div>
+                )}
+
+                {/* Platform Deck Body */}
+                <div
+                  className={`w-full relative transition-all duration-500 flex flex-col justify-end ${
+                    current.id === 'floor'
+                      ? 'h-6 bg-zinc-800 border-t-2 border-white'
+                      : current.id === '1-2ft'
+                      ? 'h-24 bg-zinc-900 border-t-4 border-[#E10B1F]'
+                      : 'h-40 bg-[#221c11] border-t-4 border-[#C9A24B]'
+                  }`}
+                >
+                  {/* Internal Steel Truss / Post Graphic */}
+                  {current.id !== 'floor' && (
+                    <div className="absolute inset-0 opacity-40 flex justify-around items-center px-4 pointer-events-none">
+                      <div className="w-1.5 h-full bg-zinc-600"></div>
+                      <div className="w-1.5 h-full bg-zinc-600"></div>
+                      <div className="w-1.5 h-full bg-zinc-600"></div>
+                      <div className="w-1.5 h-full bg-zinc-600"></div>
+                      <div className="w-1.5 h-full bg-zinc-600"></div>
+                    </div>
+                  )}
+
+                  {/* Ring Ropes & Posts Graphic on top of platform */}
+                  <div className="absolute bottom-full left-4 right-4 h-28 flex justify-between items-end pb-0">
+                    {/* Left Post */}
+                    <div className="w-3 h-28 bg-[#E10B1F] relative flex flex-col justify-between py-2 items-center">
+                      <div className="w-4 h-4 bg-white rounded-full -top-2 absolute"></div>
+                    </div>
+
+                    {/* 4 Ropes spanning */}
+                    <div className="flex-1 h-24 flex flex-col justify-between py-2 px-1">
+                      <div className="w-full h-1 bg-white shadow-sm"></div>
+                      <div className="w-full h-1 bg-zinc-300"></div>
+                      <div className="w-full h-1 bg-[#E10B1F]"></div>
+                      <div className="w-full h-1 bg-zinc-400"></div>
+                    </div>
+
+                    {/* Right Post */}
+                    <div className="w-3 h-28 bg-blue-600 relative flex flex-col justify-between py-2 items-center">
+                      <div className="w-4 h-4 bg-white rounded-full -top-2 absolute"></div>
+                    </div>
+                  </div>
+
+                  {/* Stairs graphic for elevated */}
+                  {current.id !== 'floor' && (
+                    <div className="absolute -left-6 bottom-0 w-8 h-full flex flex-col justify-between">
+                      <div className="w-full h-1 bg-zinc-500"></div>
+                      <div className="w-3/4 h-1 bg-zinc-500"></div>
+                      <div className="w-1/2 h-1 bg-zinc-500"></div>
+                    </div>
+                  )}
+
+                  {/* Platform Label */}
+                  <div className="relative z-10 text-center py-2">
+                    <span className="font-display tracking-widest text-xs sm:text-sm text-white px-2 py-0.5 bg-black/80 rounded">
+                      {current.title} — {current.height}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Ground Reference Baseline */}
+                <div className="w-full h-3 bg-zinc-800 border-t border-zinc-600 flex items-center justify-between px-2 text-[9px] text-zinc-400 font-mono">
+                  <span>GROUND LEVEL (0.00 M)</span>
+                  <span>HEAVY CONCRETE ANCHOR BASE</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Engineering Specifications (Col 7-12) */}
+            <div className="lg:col-span-6 space-y-5">
+              <div className="flex items-center gap-2">
+                <span className={`text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded border ${current.badgeColor}`}>
+                  {current.badge}
+                </span>
+                {current.isPro && (
+                  <span className="text-xs text-[#C9A24B] font-display tracking-wider">
+                    ★ SANCTIONED OFFICIAL COMPETITION ELEVATION
+                  </span>
+                )}
+              </div>
+
+              <h3 className="text-2xl sm:text-4xl font-display tracking-wide text-white uppercase">
+                {current.title}
+              </h3>
+
+              <p className="text-zinc-300 text-sm leading-relaxed">
+                {current.description}
+              </p>
+
+              <div className="space-y-2 pt-2">
+                <div className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
+                  ENGINEERED FEATURES:
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {current.features.map((feat, i) => (
+                    <div key={i} className="flex items-start gap-2 text-xs text-zinc-300">
+                      <span className="text-[#E10B1F] font-bold mt-0.5">✔</span>
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="p-3.5 bg-black/50 border border-zinc-800 rounded text-xs text-zinc-400">
+                <strong className="text-white block mb-0.5">Recommended Installation:</strong>
+                {current.idealFor}
+              </div>
+
+              <div className="pt-2 flex items-center gap-4">
+                <button
+                  onClick={handleEnquireHeight}
+                  className={`chamfer-btn px-6 py-3 text-sm font-display tracking-widest text-white transition-all flex items-center gap-2 ${
+                    current.isPro
+                      ? 'bg-[#C9A24B] hover:bg-[#b58f3c] text-black font-bold glow-gold'
+                      : 'bg-[#E10B1F] hover:bg-[#c80718] glow-red'
+                  }`}
+                >
+                  <span>GET QUOTE FOR THIS HEIGHT</span>
+                  <span>↗</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+// --- MODULE: ProductCard.jsx ---
+
+
+
+function ProductCard({ product }) {
+  const { addToCart, openQuickView } = useCart();
+
+  const [selectedSize, setSelectedSize] = useState(
+    product.defaultSize || (product.sizes ? product.sizes[0] : null)
+  );
+
+  const [selectedHeight, setSelectedHeight] = useState(
+    product.defaultHeight || (product.heightOptions ? product.heightOptions[0] : (product.elevationHeight || null))
+  );
+
+  const [quantity, setQuantity] = useState(1);
+
+  const handleAddToCart = () => {
+    addToCart(product, {
+      size: selectedSize,
+      height: selectedHeight,
+      quantity
+    });
+  };
+
+  const handleWhatsAppInstantQuote = () => {
+    const sizePart = selectedSize ? ` | Size: ${selectedSize}` : '';
+    const heightPart = selectedHeight ? ` | Height: ${selectedHeight}` : '';
+    const message = `Hello Fighter Forge, I'd like a factory quote for *${product.name}*${sizePart}${heightPart} | Qty: ${quantity}. Please share price, CAD layout, and shipping schedule.`;
+    openWhatsApp(message);
+  };
+
+  return (
+    <div
+      className={`group relative flex flex-col bg-[#161616] border transition-all duration-300 hover:-translate-y-1.5 ${
+        product.isPro
+          ? 'border-[#C9A24B]/50 hover:border-[#C9A24B] hover:shadow-[0_0_30px_rgba(201,162,75,0.25)]'
+          : 'border-zinc-800 hover:border-[#E10B1F]/60 hover:shadow-[0_0_30px_rgba(225,11,31,0.25)]'
+      }`}
+      style={{
+        clipPath: 'polygon(14px 0%, 100% 0%, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0% 100%, 0% 14px)'
+      }}
+    >
+      {/* Top Badge: Gold for Pro, Red for Regular */}
+      <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5">
+        <span
+          className={`px-2.5 py-1 text-[11px] font-display tracking-widest uppercase rounded shadow ${
+            product.isPro
+              ? 'bg-[#C9A24B] text-black font-bold'
+              : 'bg-[#E10B1F] text-white font-bold'
+          }`}
+        >
+          {product.badge || (product.isPro ? 'PRO COMPETITION' : 'HEAVY GAUGE')}
+        </span>
+      </div>
+
+      {/* Image Container with Zoom */}
+      <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-black">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-108 opacity-90 group-hover:opacity-100"
+          loading="lazy"
+        />
+
+        {/* Diagonal Slash in top-right */}
+        <div className="absolute top-0 right-0 p-3 pointer-events-none">
+          <div className="diagonal-slash-pair opacity-80">
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        {/* Quick View Button overlay on hover */}
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-4">
+          <button
+            onClick={() => openQuickView(product)}
+            className="chamfer-btn-sm bg-black/90 hover:bg-black border border-white/40 hover:border-[#E10B1F] text-white px-4 py-2 text-xs font-display tracking-widest uppercase transition-all"
+          >
+            QUICK VIEW SPECS
+          </button>
+        </div>
+
+        {/* Bottom image gradient fade */}
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#161616] to-transparent"></div>
+      </div>
+
+      {/* Product Content */}
+      <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between space-y-4">
+        <div>
+          {/* Category & Elevation Chip */}
+          <div className="flex items-center justify-between text-xs text-zinc-400 font-semibold mb-1">
+            <span className="uppercase tracking-widest text-[#E10B1F]">{product.elevationType}</span>
+            {product.isPro && (
+              <span className="text-[#C9A24B] text-[11px] font-bold">★ 100 CM PRO</span>
+            )}
+          </div>
+
+          <h3 className="text-xl sm:text-2xl font-display tracking-wide text-white uppercase group-hover:text-[#E10B1F] transition-colors">
+            {product.name}
+          </h3>
+
+          <p className="text-xs text-zinc-400 line-clamp-2 mt-1 leading-relaxed">
+            {product.tagline}
+          </p>
+
+          {/* Pricing: Optional or "PRICE ON WHATSAPP" */}
+          <div className="mt-3 py-2 border-y border-zinc-800/80 flex items-baseline justify-between">
+            <div className="text-xs text-zinc-500 font-bold uppercase tracking-wider">
+              FACTORY PRICE
+            </div>
+            <div>
+              {product.priceNumeric ? (
+                <span className="text-lg font-display text-white tracking-wide">
+                  {new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR',
+                    maximumFractionDigits: 0
+                  }).format(product.priceNumeric)}
+                </span>
+              ) : (
+                <span className="text-sm font-display text-[#E10B1F] tracking-widest">
+                  PRICE ON WHATSAPP
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Size Selector */}
+          {product.sizes && product.sizes.length > 0 && (
+            <div className="mt-3">
+              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-1.5">
+                SELECT SIZE:
+              </label>
+              <div className="flex flex-wrap gap-1.5">
+                {product.sizes.map((size) => (
+                  <button
+                    key={size}
+                    type="button"
+                    onClick={() => setSelectedSize(size)}
+                    className={`px-2.5 py-1 text-xs font-semibold rounded border transition-all ${
+                      selectedSize === size
+                        ? 'bg-[#E10B1F] border-[#E10B1F] text-white'
+                        : 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-600'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Height Selector (If product has multiple height options) */}
+          {product.heightOptions && product.heightOptions.length > 1 && (
+            <div className="mt-3">
+              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-1.5">
+                SELECT HEIGHT:
+              </label>
+              <div className="flex flex-wrap gap-1.5">
+                {product.heightOptions.map((h) => (
+                  <button
+                    key={h}
+                    type="button"
+                    onClick={() => setSelectedHeight(h)}
+                    className={`px-2.5 py-1 text-xs font-semibold rounded border transition-all ${
+                      selectedHeight === h
+                        ? 'bg-white border-white text-black font-bold'
+                        : 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-600'
+                    }`}
+                  >
+                    {h}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Key Specs Pills */}
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {product.specs && product.specs.slice(0, 3).map((spec, i) => (
+              <span
+                key={i}
+                className="text-[10px] bg-black/60 border border-zinc-800 text-zinc-300 px-2 py-0.5 rounded tracking-wide"
+              >
+                • {spec}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Action Controls: Quantity Stepper + Add To Cart Button */}
+        <div className="pt-2 border-t border-zinc-800 flex items-center gap-2">
+          {/* Quantity Stepper */}
+          <div className="flex items-center bg-black border border-zinc-800 rounded">
+            <button
+              onClick={() => setQuantity(Math.max(1, quantity - 1))}
+              className="px-2.5 py-1.5 text-zinc-400 hover:text-white transition-colors"
+              aria-label="Decrease quantity"
+            >
+              -
+            </button>
+            <span className="px-2 text-xs font-bold text-white min-w-[20px] text-center">
+              {quantity}
+            </span>
+            <button
+              onClick={() => setQuantity(quantity + 1)}
+              className="px-2.5 py-1.5 text-zinc-400 hover:text-white transition-colors"
+              aria-label="Increase quantity"
+            >
+              +
+            </button>
+          </div>
+
+          {/* Add To Cart */}
+          <button
+            onClick={handleAddToCart}
+            className="flex-1 chamfer-btn-sm bg-[#E10B1F] hover:bg-[#c80718] text-white py-2.5 px-3 text-xs font-display tracking-widest uppercase transition-all duration-200 glow-red flex items-center justify-center gap-1.5"
+          >
+            <span>ADD TO CART</span>
+            <span className="text-sm">+</span>
+          </button>
+
+          {/* Instant WhatsApp Quote Shortcut */}
+          <button
+            onClick={handleWhatsAppInstantQuote}
+            className="p-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 hover:text-white rounded transition-colors"
+            title="Instant WhatsApp Quote for this build"
+          >
+            <svg className="w-4 h-4 fill-current text-green-500" viewBox="0 0 24 24">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+// --- MODULE: QuickViewModal.jsx ---
+
+
+
+function QuickViewModal() {
+  const { quickViewProduct, closeQuickView, addToCart } = useCart();
+
+  if (!quickViewProduct) return null;
+
+  const [selectedSize, setSelectedSize] = useState(
+    quickViewProduct.defaultSize || (quickViewProduct.sizes ? quickViewProduct.sizes[0] : null)
+  );
+
+  const [selectedHeight, setSelectedHeight] = useState(
+    quickViewProduct.defaultHeight || (quickViewProduct.heightOptions ? quickViewProduct.heightOptions[0] : (quickViewProduct.elevationHeight || null))
+  );
+
+  const [quantity, setQuantity] = useState(1);
+
+  const handleAdd = () => {
+    addToCart(quickViewProduct, {
+      size: selectedSize,
+      height: selectedHeight,
+      quantity
+    });
+    closeQuickView();
+  };
+
+  const handleWhatsApp = () => {
+    const sizePart = selectedSize ? ` | Size: ${selectedSize}` : '';
+    const heightPart = selectedHeight ? ` | Height: ${selectedHeight}` : '';
+    const msg = `Hello Fighter Forge, I'm reviewing the specs for *${quickViewProduct.name}*${sizePart}${heightPart} (Qty: ${quantity}). Please share factory price and CAD installation drawing.`;
+    openWhatsApp(msg);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+      <div
+        className="relative w-full max-w-4xl bg-[#141414] border border-zinc-800 text-white shadow-2xl overflow-hidden max-h-[90vh] flex flex-col md:flex-row"
+        style={{
+          clipPath: 'polygon(16px 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%, 0% 16px)'
+        }}
+      >
+        {/* Close Button */}
+        <button
+          onClick={closeQuickView}
+          className="absolute top-4 right-4 z-30 p-2 bg-black/80 hover:bg-[#E10B1F] border border-zinc-700 text-zinc-300 hover:text-white rounded-full transition-colors"
+          aria-label="Close modal"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        {/* Left Side: Product Imagery & Badges */}
+        <div className="md:w-1/2 relative bg-black min-h-[280px] md:min-h-[460px] flex items-center justify-center">
+          <img
+            src={quickViewProduct.image}
+            alt={quickViewProduct.name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute top-4 left-4 z-20">
+            <span
+              className={`px-3 py-1 text-xs font-display tracking-widest uppercase rounded shadow ${
+                quickViewProduct.isPro
+                  ? 'bg-[#C9A24B] text-black font-bold'
+                  : 'bg-[#E10B1F] text-white font-bold'
+              }`}
+            >
+              {quickViewProduct.badge || 'PRO SPEC'}
+            </span>
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent md:hidden"></div>
+        </div>
+
+        {/* Right Side: Product Details & Controls */}
+        <div className="md:w-1/2 p-6 md:p-8 flex flex-col justify-between overflow-y-auto">
+          <div className="space-y-4">
+            <div>
+              <div className="text-xs uppercase tracking-widest text-[#E10B1F] font-bold">
+                {quickViewProduct.elevationType}
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-display text-white tracking-wide uppercase mt-1">
+                {quickViewProduct.name}
+              </h3>
+              <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
+                {quickViewProduct.description}
+              </p>
+            </div>
+
+            {/* Price Row */}
+            <div className="py-2.5 border-y border-zinc-800 flex items-center justify-between">
+              <span className="text-xs text-zinc-400 uppercase tracking-wider font-semibold">FACTORY PRICING:</span>
+              <span className="text-lg font-display text-white tracking-wide">
+                {quickViewProduct.priceNumeric ? (
+                  new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR',
+                    maximumFractionDigits: 0
+                  }).format(quickViewProduct.priceNumeric)
+                ) : (
+                  <span className="text-[#E10B1F]">PRICE ON WHATSAPP</span>
+                )}
+              </span>
+            </div>
+
+            {/* Sizes */}
+            {quickViewProduct.sizes && quickViewProduct.sizes.length > 0 && (
+              <div>
+                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-1.5">
+                  AVAILABLE SIZES:
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {quickViewProduct.sizes.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => setSelectedSize(s)}
+                      className={`px-3 py-1 text-xs font-semibold rounded border transition-all ${
+                        selectedSize === s
+                          ? 'bg-[#E10B1F] border-[#E10B1F] text-white'
+                          : 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700'
+                      }`}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Heights */}
+            {quickViewProduct.heightOptions && quickViewProduct.heightOptions.length > 1 && (
+              <div>
+                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-1.5">
+                  ELEVATION HEIGHT:
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {quickViewProduct.heightOptions.map((h) => (
+                    <button
+                      key={h}
+                      onClick={() => setSelectedHeight(h)}
+                      className={`px-3 py-1 text-xs font-semibold rounded border transition-all ${
+                        selectedHeight === h
+                          ? 'bg-white border-white text-black font-bold'
+                          : 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700'
+                      }`}
+                    >
+                      {h}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Specs List */}
+            <div>
+              <div className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block mb-1.5">
+                ENGINEERED SPECIFICATIONS:
+              </div>
+              <ul className="space-y-1.5 text-xs text-zinc-300">
+                {quickViewProduct.specs && quickViewProduct.specs.map((spec, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-[#E10B1F] font-bold mt-0.5">✔</span>
+                    <span>{spec}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Action Row */}
+          <div className="pt-6 border-t border-zinc-800 mt-6 space-y-3">
+            <div className="flex items-center gap-3">
+              {/* Stepper */}
+              <div className="flex items-center bg-black border border-zinc-800 rounded">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="px-3 py-2 text-zinc-400 hover:text-white"
+                >
+                  -
+                </button>
+                <span className="px-3 text-sm font-bold text-white min-w-[24px] text-center">
+                  {quantity}
+                </span>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="px-3 py-2 text-zinc-400 hover:text-white"
+                >
+                  +
+                </button>
+              </div>
+
+              {/* Add to Cart */}
+              <button
+                onClick={handleAdd}
+                className="flex-1 chamfer-btn bg-[#E10B1F] hover:bg-[#c80718] text-white py-3 font-display tracking-widest text-sm uppercase glow-red transition-all"
+              >
+                ADD TO ENQUIRY CART
+              </button>
+            </div>
+
+            {/* Direct WhatsApp Quote */}
+            <button
+              onClick={handleWhatsApp}
+              className="w-full chamfer-btn-sm bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white py-2 text-xs font-display tracking-widest uppercase transition-all flex items-center justify-center gap-2"
+            >
+              <span>INSTANT WHATSAPP CONSULTATION</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+// --- MODULE: Toast.jsx ---
+
+
+function Toast({ navigateTo }) {
+  const { toast, hideToast } = useCart();
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => {
+      hideToast();
+    }, 4500);
+    return () => clearTimeout(timer);
+  }, [toast, hideToast]);
+
+  if (!toast) return null;
+
+  return (
+    <div className="fixed bottom-24 right-6 z-50 max-w-sm w-full animate-slideUp">
+      <div
+        className="bg-[#181818] border-l-4 border-[#E10B1F] border-y border-r border-zinc-800 text-white p-4 shadow-2xl flex items-start justify-between gap-3"
+        style={{
+          clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)'
+        }}
+      >
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#E10B1F] animate-ping"></span>
+            <span className="font-display text-sm tracking-wider text-white">
+              {toast.title}
+            </span>
+          </div>
+          {toast.message && (
+            <p className="text-xs text-zinc-400 mt-1 line-clamp-2">
+              {toast.message}
+            </p>
+          )}
+
+          {toast.link && (
+            <button
+              onClick={() => {
+                hideToast();
+                navigateTo('cart');
+              }}
+              className="mt-2.5 text-xs font-bold text-[#E10B1F] hover:text-white uppercase tracking-wider flex items-center gap-1 group transition-colors"
+            >
+              <span>VIEW ENQUIRY CART</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </button>
+          )}
+        </div>
+
+        <button
+          onClick={hideToast}
+          className="text-zinc-500 hover:text-white p-1 text-xs"
+          aria-label="Dismiss toast"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
+// --- MODULE: GearCommunityModal.jsx ---
+
+
+
+
+function GearCommunityModal({ isOpen, onClose }) {
+  if (!isOpen) return null;
+
+  const [activeTab, setActiveTab] = useState('ideas'); // 'ideas' or 'group'
+  const [gearCategory, setGearCategory] = useState('Pro Boxing Gloves (12-16oz)');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [city, setCity] = useState('');
+  const [idea, setIdea] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const gearOptions = [
+    'Pro Boxing Gloves (12-16oz)',
+    'MMA Sparring & Fight Gloves',
+    'Heavy-Duty Combat Duffel Bag',
+    'Muay Thai / MMA Shin Guards',
+    'No-Gi Fight Shorts & Rashguards',
+    'Other Custom Combat Gear'
+  ];
+
+  const handleSubmitIdea = async (e) => {
+    e.preventDefault();
+    if (!name.trim() || !phone.trim() || !idea.trim()) return;
+
+    setLoading(true);
+    await submitGearIdea({
+      gearCategory,
+      name,
+      phone,
+      city,
+      idea
+    });
+    setLoading(false);
+    setSubmitted(true);
+  };
+
+  const handleOpenWhatsAppIdea = () => {
+    const formatted = formatGearIdeaMessage({
+      gearCategory,
+      name,
+      phone,
+      city,
+      idea
+    });
+    openWhatsApp(formatted);
+  };
+
+  const handleJoinWhatsAppGroup = () => {
+    openWhatsApp(
+      `Hello Fighter Forge, I'd like to join the Fighter Forge VIP Insiders Group for upcoming gear prototypes, test batches, and factory updates!`
+    );
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+      <div
+        className="relative w-full max-w-2xl bg-[#141414] border border-zinc-800 text-white shadow-2xl overflow-hidden p-6 sm:p-8"
+        style={{
+          clipPath: 'polygon(16px 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%, 0% 16px)'
+        }}
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-20 p-2 text-zinc-400 hover:text-white rounded-full bg-zinc-900 border border-zinc-800"
+        >
+          ✕
+        </button>
+
+        {/* Header */}
+        <div className="flex items-center gap-2 mb-2">
+          <span className="w-2 h-2 rounded-full bg-[#E10B1F]"></span>
+          <span className="text-xs font-bold uppercase tracking-widest text-zinc-400">
+            FIGHTER FORGE LABS & COMMUNITY
+          </span>
+        </div>
+        <h3 className="text-2xl sm:text-3xl font-display uppercase tracking-wide text-white">
+          BUILD YOUR OWN GEAR • SHAPE UPCOMING SKUS
+        </h3>
+        <p className="text-xs sm:text-sm text-zinc-400 mt-1">
+          We manufacture for champions. Tell our R&D engineers what you need in upcoming gloves, armor, and gear—or join the Fighter Forge Insiders Group.
+        </p>
+
+        {/* Tab Buttons */}
+        <div className="flex border-b border-zinc-800 mt-6 mb-6">
+          <button
+            onClick={() => setActiveTab('ideas')}
+            className={`flex-1 py-3 text-xs sm:text-sm font-display tracking-widest uppercase border-b-2 transition-all ${
+              activeTab === 'ideas'
+                ? 'border-[#E10B1F] text-[#E10B1F]'
+                : 'border-transparent text-zinc-400 hover:text-white'
+            }`}
+          >
+            💡 SUBMIT GEAR IDEAS & SPECS
+          </button>
+          <button
+            onClick={() => setActiveTab('group')}
+            className={`flex-1 py-3 text-xs sm:text-sm font-display tracking-widest uppercase border-b-2 transition-all ${
+              activeTab === 'group'
+                ? 'border-[#C9A24B] text-[#C9A24B]'
+                : 'border-transparent text-zinc-400 hover:text-white'
+            }`}
+          >
+            🔥 JOIN INSIDERS GROUP
+          </button>
+        </div>
+
+        {/* Tab 1: Submit Ideas */}
+        {activeTab === 'ideas' && (
+          <div>
+            {!submitted ? (
+              <form onSubmit={handleSubmitIdea} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                    Which Gear SKU are you designing?
+                  </label>
+                  <select
+                    value={gearCategory}
+                    onChange={(e) => setGearCategory(e.target.value)}
+                    className="w-full bg-zinc-900 border border-zinc-700 text-white px-3.5 py-2.5 rounded text-sm focus:border-[#E10B1F] outline-none"
+                  >
+                    {gearOptions.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                      Your Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Coach Rahul"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full bg-zinc-900 border border-zinc-700 text-white px-3 py-2 rounded text-xs focus:border-[#E10B1F] outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                      WhatsApp Phone *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="+91..."
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full bg-zinc-900 border border-zinc-700 text-white px-3 py-2 rounded text-xs focus:border-[#E10B1F] outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                      City / Gym
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Mumbai"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      className="w-full bg-zinc-900 border border-zinc-700 text-white px-3 py-2 rounded text-xs focus:border-[#E10B1F] outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                    Your Gear Ideas, Foam Feedback or Custom Needs *
+                  </label>
+                  <textarea
+                    rows="3"
+                    required
+                    placeholder="e.g., We need boxing gloves with extra wrist support for heavy bag rounds, metallic red foil details, and breathable palms..."
+                    value={idea}
+                    onChange={(e) => setIdea(e.target.value)}
+                    className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-xs focus:border-[#E10B1F] outline-none"
+                  ></textarea>
+                </div>
+
+                <div className="flex items-center gap-3 pt-2">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="flex-1 chamfer-btn bg-[#E10B1F] hover:bg-[#c80718] text-white py-3 font-display tracking-widest text-sm uppercase glow-red transition-all"
+                  >
+                    {loading ? 'TRANSMITTING...' : 'SUBMIT GEAR IDEA'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="chamfer-btn-sm px-4 py-3 bg-zinc-900 border border-zinc-700 text-zinc-300 text-xs font-bold"
+                  >
+                    CANCEL
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="text-center py-6 space-y-4 animate-fadeIn">
+                <div className="w-14 h-14 mx-auto rounded-full bg-[#E10B1F]/20 border border-[#E10B1F] flex items-center justify-center text-[#E10B1F] text-2xl font-bold">
+                  ✓
+                </div>
+                <h4 className="text-2xl font-display tracking-wide uppercase text-white">
+                  IDEA TRANSMITTED TO R&D
+                </h4>
+                <p className="text-xs text-zinc-300 max-w-md mx-auto">
+                  Thank you for contributing to Fighter Forge gear engineering! Would you like to chat with our product designers directly on WhatsApp?
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                  <button
+                    onClick={handleOpenWhatsAppIdea}
+                    className="w-full sm:w-auto chamfer-btn bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 font-display text-sm tracking-wider flex items-center justify-center gap-2"
+                  >
+                    <span>SEND IDEA ON WHATSAPP NOW</span>
+                    <span>↗</span>
+                  </button>
+                  <button
+                    onClick={onClose}
+                    className="w-full sm:w-auto chamfer-btn-sm bg-zinc-800 text-zinc-300 px-5 py-2.5 text-xs font-bold"
+                  >
+                    DONE
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Tab 2: Join Group */}
+        {activeTab === 'group' && (
+          <div className="py-4 space-y-5">
+            <div className="p-4 bg-zinc-900 border border-zinc-800 rounded">
+              <div className="text-xs font-bold text-[#C9A24B] uppercase tracking-wider mb-1">
+                ★ VIP FIGHTER FORGE INSIDERS CIRCLE
+              </div>
+              <p className="text-xs text-zinc-300 leading-relaxed">
+                Connect directly with gym owners, pro coaches, championship athletes, and our manufacturing founders. Get early prototype access, factory-direct discounts on arena builds, and first dibs on limited glove drops.
+              </p>
+            </div>
+
+            <div className="space-y-2 text-xs text-zinc-300">
+              <div className="flex items-center gap-2">
+                <span className="text-[#E10B1F] font-bold">✔</span>
+                <span>Exclusive beta testing of upcoming 16oz sparring gloves</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#E10B1F] font-bold">✔</span>
+                <span>Factory direct updates on arena hardware & blueprint CADs</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#E10B1F] font-bold">✔</span>
+                <span>Zero spam, strictly combat sports equipment & fight culture</span>
+              </div>
+            </div>
+
+            <button
+              onClick={handleJoinWhatsAppGroup}
+              className="w-full chamfer-btn bg-[#C9A24B] hover:bg-[#b8913a] text-black font-bold py-3.5 font-display tracking-widest text-base uppercase glow-gold transition-all flex items-center justify-center gap-2"
+            >
+              <span>JOIN INSIDERS GROUP VIA WHATSAPP</span>
+              <span>↗</span>
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+// --- MODULE: EventRentalModal.jsx ---
+
+
+
+
+function EventRentalModal({ isOpen, onClose, preselectedArena = null }) {
+  if (!isOpen) return null;
+
+  const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    eventName: '',
+    eventType: preselectedArena || 'Boxing Ring (3 ft Pro Competition)',
+    city: '',
+    eventDates: '',
+    elevation: '3 ft Pro Competition (100 cm)',
+    contactName: '',
+    phone: '',
+    notes: ''
+  });
+
+  const arenaOptions = [
+    'Boxing Ring (3 ft Pro Competition - IPBL Standard)',
+    'Boxing Ring (1–2 ft Elevated Event Height)',
+    'Boxing Ring (Floor Level)',
+    'MMA Cage (24 ft Pro Championship Octagon)',
+    'MMA Cage (20 ft Elevated Octagon)',
+    'MMA Cage (Floor Level Octagon)',
+    'Both Boxing Ring & MMA Cage'
+  ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      await saveRentalEnquiry({
+        ...formData,
+        submittedAt: new Date().toISOString()
+      });
+    } catch (err) {
+      console.warn("Could not save rental enquiry to backend:", err);
+    }
+    const message = formatEventRentalMessage(formData);
+    openWhatsApp(message);
+    setSubmitting(false);
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-fadeIn">
+      <div
+        className="relative w-full max-w-2xl bg-[#141414] border border-[#C9A24B]/60 text-white shadow-2xl overflow-hidden p-6 sm:p-8 max-h-[92vh] flex flex-col"
+        style={{
+          clipPath: 'polygon(16px 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%, 0% 16px)'
+        }}
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-20 p-2 text-zinc-400 hover:text-white rounded-full bg-zinc-900 border border-zinc-800"
+        >
+          ✕
+        </button>
+
+        <div className="overflow-y-auto pr-1 space-y-5">
+          {/* Header */}
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#C9A24B]/15 border border-[#C9A24B]/40 text-xs font-bold tracking-widest text-[#C9A24B] uppercase mb-2">
+              <span>🏟️ NATIONWIDE EVENT RENTALS (INDIA)</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-display uppercase tracking-wide text-white">
+              RENT RINGS & MMA CAGES FOR FIGHT EVENTS
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-300 mt-1 leading-relaxed">
+              Official arena supplier for <strong>IPBL (India Pro Boxing League)</strong>, State Championships, and UFC-standard Pro MMA Fight Promotions across India. Complete professional setup crew, acoustic vibration dampening, and teardown included.
+            </p>
+          </div>
+
+          {/* Quick Perks Strip */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 py-2 border-y border-zinc-800/80 text-[11px] text-zinc-300">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[#C9A24B] font-bold">✔</span>
+              <span>IPBL Standard Rings</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[#C9A24B] font-bold">✔</span>
+              <span>Pro MMA Octagons</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[#C9A24B] font-bold">✔</span>
+              <span>Full Erection Crew</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[#C9A24B] font-bold">✔</span>
+              <span>Sponsor Canvas Branding</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[#C9A24B] font-bold">✔</span>
+              <span>Express All-India Transport</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[#C9A24B] font-bold">✔</span>
+              <span>Direct WhatsApp Hotline</span>
+            </div>
+          </div>
+
+          {/* Rental Inquiry Form */}
+          <form onSubmit={handleSubmit} className="space-y-4 pt-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                  Event / Promotion Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. IPBL Fight Night / Pro MMA Championship"
+                  value={formData.eventName}
+                  onChange={(e) => setFormData({ ...formData, eventName: e.target.value })}
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white p-2.5 rounded text-xs focus:border-[#C9A24B] outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                  Arena Setup Required *
+                </label>
+                <select
+                  value={formData.eventType}
+                  onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white p-2.5 rounded text-xs focus:border-[#C9A24B] outline-none"
+                >
+                  {arenaOptions.map((opt) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                  Event City & State *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Delhi NCR / Mumbai"
+                  value={formData.city}
+                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white p-2.5 rounded text-xs focus:border-[#C9A24B] outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                  Event Dates / Duration *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Nov 20-22 (3 Days)"
+                  value={formData.eventDates}
+                  onChange={(e) => setFormData({ ...formData, eventDates: e.target.value })}
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white p-2.5 rounded text-xs focus:border-[#C9A24B] outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                  Elevation Standard
+                </label>
+                <select
+                  value={formData.elevation}
+                  onChange={(e) => setFormData({ ...formData, elevation: e.target.value })}
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white p-2.5 rounded text-xs focus:border-[#C9A24B] outline-none"
+                >
+                  <option value="3 ft Pro Competition (100 cm)">3 ft Pro Level (100 cm)</option>
+                  <option value="1–2 ft Elevated (30-60 cm)">1–2 ft Event Height</option>
+                  <option value="Floor-Level Flush">Floor-Level Flush</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                  Your Name / Organization *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Matchmaker / Event Coordinator"
+                  value={formData.contactName}
+                  onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white p-2.5 rounded text-xs focus:border-[#C9A24B] outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                  WhatsApp Contact Number *
+                </label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="+91..."
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white p-2.5 rounded text-xs focus:border-[#C9A24B] outline-none"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1">
+                Special Requirements (Venue ceiling, lighting truss, sponsor logos, etc.)
+              </label>
+              <textarea
+                rows="2"
+                placeholder="Mention venue indoor/outdoor, sponsor logo printing needed on canvas or skirts..."
+                value={formData.notes}
+                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                className="w-full bg-zinc-900 border border-zinc-700 text-white p-2.5 rounded text-xs focus:border-[#C9A24B] outline-none"
+              ></textarea>
+            </div>
+
+            {/* Action Button: ONLY SEND RENTAL INQUIRY (stores to DB + opens WhatsApp) */}
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full chamfer-btn bg-[#E10B1F] hover:bg-[#c80718] text-white py-3.5 font-display text-base tracking-widest uppercase glow-red transition-all flex items-center justify-center gap-2"
+              >
+                <span>{submitting ? 'SAVING INQUIRY...' : 'SEND RENTAL INQUIRY'}</span>
+                <span className="text-lg">↗</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+// --- MODULE: LoadingScreen.jsx ---
+
+function LoadingScreen({ onFinish }) {
+  const [fading, setFading] = useState(false);
+
+  useEffect(() => {
+    const timer1 = setTimeout(() => {
+      setFading(true);
+    }, 900);
+
+    const timer2 = setTimeout(() => {
+      onFinish();
+    }, 1300);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, [onFinish]);
+
+  return (
+    <div
+      className={`fixed inset-0 z-[100] bg-[#0A0A0A] flex flex-col items-center justify-center transition-opacity duration-400 ${
+        fading ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      }`}
+    >
+      <div className="relative flex flex-col items-center">
+        {/* Pulsing Shield Icon */}
+        <div className="relative w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center animate-pulse">
+          <img
+            src="./assets/fighter-forge-shield.png"
+            alt="Fighter Forge Shield"
+            className="w-full h-full object-contain filter drop-shadow-[0_0_25px_rgba(225,11,31,0.6)]"
+          />
+        </div>
+
+        {/* Brand Text */}
+        <div className="mt-6 text-center">
+          <h2 className="font-display text-2xl sm:text-3xl tracking-widest text-white uppercase">
+            FIGHTER FORGE
+          </h2>
+          <div className="flex items-center justify-center gap-2 mt-2">
+            <span className="w-1.5 h-1.5 bg-[#E10B1F] animate-ping"></span>
+            <span className="text-[11px] font-bold text-zinc-400 tracking-[0.3em] uppercase">
+              FORGING ARENA HARDWARE
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+// --- MODULE: Navbar.jsx ---
+
+
+
+
+function Navbar({ currentPage, navigateTo, onOpenRentalModal }) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { totalItems } = useCart();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 40);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleNavClick = (page) => {
+    navigateTo(page);
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleGetQuote = () => {
+    openWhatsApp(
+      `Hello Fighter Forge, I would like to get an official quote and consultation for Boxing Rings / MMA Cages.`
+    );
+  };
+
+  return (
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-[#0A0A0A]/95 backdrop-blur-md border-b border-white/10 shadow-2xl py-3'
+            : 'bg-gradient-to-b from-[#0A0A0A]/90 to-transparent py-5'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          {/* Logo on the Left */}
+          <div
+            onClick={() => handleNavClick('home')}
+            className="cursor-pointer flex items-center gap-3 group"
+          >
+            <img
+              src="./assets/fighter-forge-horizontal.png"
+              alt="FIGHTER FORGE Logo"
+              className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+
+          {/* Desktop Nav Links */}
+          <div className="hidden lg:flex items-center space-x-1 xl:space-x-2">
+            <button
+              onClick={() => handleNavClick('home')}
+              className={`px-3 py-2 text-sm font-semibold tracking-wider transition-colors duration-200 ${
+                currentPage === 'home'
+                  ? 'text-[#E10B1F]'
+                  : 'text-zinc-300 hover:text-white'
+              }`}
+            >
+              HOME
+            </button>
+
+            {/* BOXING RINGS - Prominent Accent */}
+            <button
+              onClick={() => handleNavClick('boxing-rings')}
+              className={`relative px-4 py-2 text-sm font-bold tracking-wider uppercase transition-all duration-200 flex items-center gap-1.5 ${
+                currentPage === 'boxing-rings'
+                  ? 'text-white bg-[#E10B1F]/20 border border-[#E10B1F]'
+                  : 'text-white hover:text-[#E10B1F] hover:bg-zinc-900/60'
+              }`}
+              style={{
+                clipPath: 'polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px)'
+              }}
+            >
+              <span className="w-1.5 h-1.5 bg-[#E10B1F]"></span>
+              BOXING RINGS
+            </button>
+
+            {/* MMA CAGES - Prominent Accent */}
+            <button
+              onClick={() => handleNavClick('mma-cages')}
+              className={`relative px-4 py-2 text-sm font-bold tracking-wider uppercase transition-all duration-200 flex items-center gap-1.5 ${
+                currentPage === 'mma-cages'
+                  ? 'text-white bg-[#E10B1F]/20 border border-[#E10B1F]'
+                  : 'text-white hover:text-[#E10B1F] hover:bg-zinc-900/60'
+              }`}
+              style={{
+                clipPath: 'polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px)'
+              }}
+            >
+              <span className="w-1.5 h-1.5 bg-[#E10B1F]"></span>
+              MMA CAGES
+            </button>
+
+            <button
+              onClick={() => handleNavClick('stories')}
+              className={`px-3 py-2 text-sm font-semibold tracking-wider transition-colors duration-200 ${
+                currentPage === 'stories'
+                  ? 'text-[#E10B1F]'
+                  : 'text-zinc-300 hover:text-white'
+              }`}
+            >
+              STORIES
+            </button>
+
+            <button
+              onClick={() => handleNavClick('customize')}
+              className={`px-3 py-2 text-sm font-semibold tracking-wider transition-colors duration-200 flex items-center gap-1.5 ${
+                currentPage === 'customize'
+                  ? 'text-[#C9A24B]'
+                  : 'text-zinc-300 hover:text-[#C9A24B]'
+              }`}
+            >
+              <span className="text-[#C9A24B] text-xs">★</span>
+              CUSTOMIZE
+            </button>
+
+            {/* EVENT RENTALS (IPBL & PRO MMA) */}
+            <button
+              onClick={onOpenRentalModal}
+              className="chamfer-btn-sm bg-gradient-to-r from-[#C9A24B]/20 via-black to-zinc-900 hover:from-[#C9A24B] hover:to-[#b58f3c] border border-[#C9A24B] text-[#C9A24B] hover:text-black px-3.5 py-1.5 text-xs font-display tracking-widest uppercase transition-all duration-200 flex items-center gap-1.5 glow-gold shadow-sm"
+              title="Rent Boxing Rings & MMA Cages for Events across India (IPBL Standard)"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A24B] animate-ping"></span>
+              <span>RENT FOR EVENTS</span>
+            </button>
+          </div>
+
+          {/* Right Action Buttons */}
+          <div className="hidden lg:flex items-center space-x-4">
+            {/* Cart Icon with badge */}
+            <button
+              onClick={() => handleNavClick('cart')}
+              className="relative p-2.5 text-zinc-300 hover:text-white hover:bg-zinc-900/80 rounded transition-all duration-200"
+              title="View Enquiry Cart"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                />
+              </svg>
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-[#E10B1F] text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center animate-pulse">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+
+            {/* Red "GET A QUOTE" Button */}
+            <button
+              onClick={handleGetQuote}
+              className="chamfer-btn bg-[#E10B1F] hover:bg-[#c80718] text-white px-5 py-2.5 text-sm font-display tracking-widest flex items-center gap-2 glow-red transition-all duration-200"
+            >
+              <span>GET A QUOTE</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Mobile Right Controls: Cart & Hamburger */}
+          <div className="flex items-center space-x-2 lg:hidden">
+            <button
+              onClick={() => handleNavClick('cart')}
+              className="relative p-2 text-zinc-200"
+              aria-label="Cart"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                />
+              </svg>
+              {totalItems > 0 && (
+                <span className="absolute top-0 right-0 bg-[#E10B1F] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 text-zinc-200 hover:text-white"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Full-Screen Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-[#0A0A0A]/98 backdrop-blur-xl flex flex-col justify-between pt-24 pb-8 px-6 lg:hidden animate-fadeIn">
+          <div className="flex flex-col space-y-4">
+            <div className="text-[11px] font-bold tracking-[0.2em] text-[#8C8C8C] uppercase border-b border-zinc-800 pb-2">
+              NAVIGATION
+            </div>
+            
+            <button
+              onClick={() => handleNavClick('home')}
+              className={`text-left text-2xl font-display tracking-wider py-2 transition-colors ${
+                currentPage === 'home' ? 'text-[#E10B1F]' : 'text-zinc-200'
+              }`}
+            >
+              HOME
+            </button>
+
+            <button
+              onClick={() => handleNavClick('boxing-rings')}
+              className={`text-left text-2xl font-display tracking-wider py-2 flex items-center justify-between border-l-2 pl-3 ${
+                currentPage === 'boxing-rings'
+                  ? 'border-[#E10B1F] text-[#E10B1F]'
+                  : 'border-zinc-800 text-white'
+              }`}
+            >
+              <span>BOXING RINGS</span>
+              <span className="text-xs bg-[#E10B1F]/20 text-[#E10B1F] px-2 py-0.5 font-sans font-bold">PRO ARENA</span>
+            </button>
+
+            <button
+              onClick={() => handleNavClick('mma-cages')}
+              className={`text-left text-2xl font-display tracking-wider py-2 flex items-center justify-between border-l-2 pl-3 ${
+                currentPage === 'mma-cages'
+                  ? 'border-[#E10B1F] text-[#E10B1F]'
+                  : 'border-zinc-800 text-white'
+              }`}
+            >
+              <span>MMA CAGES</span>
+              <span className="text-xs bg-[#E10B1F]/20 text-[#E10B1F] px-2 py-0.5 font-sans font-bold">OCTAGONS</span>
+            </button>
+
+            <button
+              onClick={() => handleNavClick('customize')}
+              className={`text-left text-2xl font-display tracking-wider py-2 flex items-center justify-between ${
+                currentPage === 'customize' ? 'text-[#C9A24B]' : 'text-zinc-200'
+              }`}
+            >
+              <span>CUSTOMIZE ARENA</span>
+              <span className="text-xs text-[#C9A24B] font-sans font-bold">CUSTOM BUILD</span>
+            </button>
+
+            {/* Event Rentals Mobile Drawer Button */}
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenRentalModal();
+              }}
+              className="text-left text-2xl font-display tracking-wider py-2 flex items-center justify-between border-l-2 border-[#C9A24B] pl-3 text-[#C9A24B]"
+            >
+              <span>RENT FOR EVENTS</span>
+              <span className="text-xs bg-[#C9A24B]/20 text-[#C9A24B] px-2 py-0.5 font-sans font-bold">ALL INDIA</span>
+            </button>
+
+            <button
+              onClick={() => handleNavClick('stories')}
+              className={`text-left text-2xl font-display tracking-wider py-2 ${
+                currentPage === 'stories' ? 'text-[#E10B1F]' : 'text-zinc-200'
+              }`}
+            >
+              STORIES & NEWS
+            </button>
+
+            <button
+              onClick={() => handleNavClick('cart')}
+              className={`text-left text-2xl font-display tracking-wider py-2 flex items-center justify-between ${
+                currentPage === 'cart' ? 'text-[#E10B1F]' : 'text-zinc-200'
+              }`}
+            >
+              <span>ENQUIRY CART</span>
+              {totalItems > 0 && (
+                <span className="bg-[#E10B1F] text-white text-xs px-2.5 py-0.5 rounded-full font-sans font-bold">
+                  {totalItems} ITEMS
+                </span>
+              )}
+            </button>
+          </div>
+
+          <div className="pt-6 border-t border-zinc-800 flex flex-col space-y-3">
+            <button
+              onClick={handleGetQuote}
+              className="w-full chamfer-btn bg-[#E10B1F] text-white py-3.5 font-display text-lg tracking-widest text-center flex items-center justify-center gap-2 glow-red"
+            >
+              <span>GET A QUOTE ON WHATSAPP</span>
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+
+            <div className="text-center text-xs text-zinc-500 font-sans pt-2">
+              Factory Hotline: {siteConfig.phoneDisplay}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+
+// --- MODULE: Footer.jsx ---
+
+
+
+function Footer({ navigateTo, onOpenGearCommunity, onOpenRentalModal }) {
+  const handleNav = (page) => {
+    navigateTo(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleWhatsAppContact = () => {
+    openWhatsApp(
+      `Hello Fighter Forge (+91 78389 66576), I'm reaching out from your website footer. I'd like to talk to a combat arena specialist.`
+    );
+  };
+
+  return (
+    <footer className="relative bg-[#0A0A0A] border-t border-zinc-800 text-zinc-400 overflow-hidden pt-16 pb-12">
+      {/* Subtle Background Watermark Shield */}
+      <img
+        src="./assets/fighter-forge-shield.png"
+        alt=""
+        aria-hidden="true"
+        className="shield-watermark right-[-5%] bottom-[-10%] w-[450px] opacity-[0.03]"
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-zinc-800/80">
+          {/* Col 1 & 2: Brand & Identity */}
+          <div className="lg:col-span-2 space-y-4">
+            <img
+              src="./assets/fighter-forge-horizontal.png"
+              alt="FIGHTER FORGE"
+              className="h-10 sm:h-12 w-auto object-contain cursor-pointer"
+              onClick={() => handleNav('home')}
+            />
+            <p className="font-display text-lg text-white tracking-widest pt-2 flex items-center gap-2">
+              <span className="w-2 h-2 bg-[#E10B1F]"></span>
+              {siteConfig.tagline}
+            </p>
+            <p className="text-sm text-zinc-400 max-w-sm leading-relaxed">
+              Industrial-grade manufacturer of championship Boxing Rings and MMA Cages. Engineered from heavy-gauge structural steel for fighters, combat academies, and broadcast fight leagues.
+            </p>
+
+            <div className="pt-2 flex flex-wrap items-center gap-2.5">
+              <button
+                onClick={handleWhatsAppContact}
+                className="chamfer-btn-sm bg-[#E10B1F]/20 hover:bg-[#E10B1F] border border-[#E10B1F] text-white px-4 py-2 text-xs font-bold tracking-wider transition-all duration-200 flex items-center gap-2"
+              >
+                <span>WHATSAPP</span>
+                <span className="text-xs">↗</span>
+              </button>
+              <button
+                onClick={onOpenGearCommunity}
+                className="chamfer-btn-sm bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 px-3.5 py-2 text-xs font-bold tracking-wider transition-all duration-200"
+              >
+                GEAR COMMUNITY
+              </button>
+            </div>
+          </div>
+
+          {/* Col 3: Arena Equipment Links */}
+          <div className="space-y-3">
+            <h4 className="text-white font-display text-base tracking-wider uppercase border-l-2 border-[#E10B1F] pl-2.5">
+              ARENA EQUIPMENT
+            </h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <button
+                  onClick={onOpenRentalModal}
+                  className="text-[#C9A24B] hover:underline font-bold text-left flex items-center gap-1.5"
+                >
+                  <span>★ Event Rentals (IPBL & MMA)</span>
+                  <span className="text-[10px] bg-[#C9A24B]/20 text-[#C9A24B] px-1 py-0.2 rounded font-bold">ALL INDIA</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('boxing-rings')}
+                  className="hover:text-white hover:translate-x-1 transition-all text-left"
+                >
+                  Floor Boxing Rings
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('boxing-rings')}
+                  className="hover:text-white hover:translate-x-1 transition-all text-left"
+                >
+                  Elevated Rings (1–2 ft)
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('boxing-rings')}
+                  className="hover:text-[#C9A24B] hover:translate-x-1 transition-all text-left flex items-center gap-1.5"
+                >
+                  <span>Pro Competition Ring (3 ft)</span>
+                  <span className="text-[10px] bg-[#C9A24B]/20 text-[#C9A24B] px-1 py-0.2 rounded font-bold">PRO</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('mma-cages')}
+                  className="hover:text-white hover:translate-x-1 transition-all text-left"
+                >
+                  Floor MMA Octagons
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('mma-cages')}
+                  className="hover:text-white hover:translate-x-1 transition-all text-left"
+                >
+                  Elevated MMA Cages
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('customize')}
+                  className="text-[#C9A24B] hover:underline font-semibold text-left pt-1 block"
+                >
+                  Custom Gym Blueprints →
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 4: Platform & Stories */}
+          <div className="space-y-3">
+            <h4 className="text-white font-display text-base tracking-wider uppercase border-l-2 border-[#E10B1F] pl-2.5">
+              PLATFORM & SPECS
+            </h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <button
+                  onClick={() => handleNav('stories')}
+                  className="hover:text-white hover:translate-x-1 transition-all text-left"
+                >
+                  Arena Engineering Stories
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('stories')}
+                  className="hover:text-white hover:translate-x-1 transition-all text-left"
+                >
+                  Why 100cm (3ft) Pro Height
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('stories')}
+                  className="hover:text-white hover:translate-x-1 transition-all text-left"
+                >
+                  Octagon vs Hexagon Analysis
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('cart')}
+                  className="hover:text-white hover:translate-x-1 transition-all text-left"
+                >
+                  Enquiry Cart Checkout
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenGearCommunity}
+                  className="hover:text-white hover:translate-x-1 transition-all text-left"
+                >
+                  Build Your Own Gear / Ideas
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 5: Factory HQ & Contact */}
+          <div className="space-y-3">
+            <h4 className="text-white font-display text-base tracking-wider uppercase border-l-2 border-[#E10B1F] pl-2.5">
+              FACTORY CONTACT
+            </h4>
+            <div className="space-y-2.5 text-xs text-zinc-400">
+              <p>
+                <strong className="text-zinc-200 block text-sm">WhatsApp Hotline:</strong>
+                <span className="text-[#E10B1F] font-bold text-sm">{siteConfig.phoneDisplay}</span>
+              </p>
+              <p>
+                <strong className="text-zinc-200 block">Direct Factory Email:</strong>
+                <a href={`mailto:${siteConfig.email}`} className="hover:text-white underline">
+                  {siteConfig.email}
+                </a>
+              </p>
+              <p>
+                <strong className="text-zinc-200 block">Manufacturing Arena:</strong>
+                {siteConfig.address.line1}, {siteConfig.address.city}, {siteConfig.address.country}
+              </p>
+
+              {/* Coming Soon Notice */}
+              <div className="pt-3 border-t border-zinc-800">
+                <div className="bg-zinc-900/90 border border-zinc-800 p-2.5 rounded">
+                  <div className="text-[11px] font-bold text-[#E10B1F] uppercase tracking-wider flex items-center gap-1">
+                    <span>⚡ COMING SOON</span>
+                  </div>
+                  <p className="text-[11px] text-zinc-400 pt-0.5">
+                    Boxing Gloves, Shin Armor & Pro Combat Apparel in R&D.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar: Copyright & Brand Elements */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
+          <div className="flex items-center gap-2">
+            <span>© {new Date().getFullYear()} FIGHTER FORGE. All rights reserved.</span>
+            <span className="text-zinc-700">|</span>
+            <span className="text-zinc-400 font-semibold tracking-wider">BOXING RINGS & MMA CAGES</span>
+          </div>
+
+          <div className="flex items-center space-x-6 text-zinc-400 font-medium">
+            <span className="hover:text-white cursor-pointer" onClick={() => handleNav('home')}>Discipline Builds Champions</span>
+            <span className="text-zinc-700">•</span>
+            <span className="hover:text-white cursor-pointer" onClick={() => handleNav('customize')}>Custom Gym CAD</span>
+            <span className="text-zinc-700">•</span>
+            <span className="hover:text-[#E10B1F] cursor-pointer" onClick={handleWhatsAppContact}>Direct WhatsApp Enquiry</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+
+// --- MODULE: FloatingWhatsApp.jsx ---
+
+
+
+function FloatingWhatsApp() {
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  const handleClick = () => {
+    openWhatsApp(getFloatingWhatsAppGreeting());
+  };
+
+  return (
+    <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
+      {/* Tooltip Pill */}
+      {showTooltip && (
+        <div className="hidden sm:flex items-center bg-[#1A1A1A] text-white border border-[#E10B1F]/60 px-3.5 py-2 rounded shadow-2xl text-xs font-semibold tracking-wide animate-fadeIn">
+          <span className="w-2 h-2 rounded-full bg-[#E10B1F] animate-ping mr-2"></span>
+          <span>WhatsApp Factory Hotline • Direct Quotes</span>
+        </div>
+      )}
+
+      {/* Main Floating Button */}
+      <button
+        onClick={handleClick}
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+        className="relative group p-3.5 sm:p-4 bg-[#E10B1F] hover:bg-[#c80718] text-white rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center animate-pulse-glow"
+        aria-label="Chat on WhatsApp"
+        title="Direct WhatsApp Arena Support"
+      >
+        {/* Subtle Ring Ping */}
+        <span className="absolute -inset-1 rounded-full bg-[#E10B1F] opacity-30 group-hover:opacity-60 blur-sm animate-ping"></span>
+
+        {/* WhatsApp Official Style SVG */}
+        <svg
+          className="w-7 h-7 sm:w-8 sm:h-8 fill-current relative z-10"
+          viewBox="0 0 24 24"
+        >
+          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z" />
+          <path d="M12.04 2C6.496 2 2 6.496 2 12.04c0 1.95.556 3.774 1.521 5.318L2 22l4.787-1.493C8.28 21.392 10.106 22 12.04 22c5.544 0 10.04-4.496 10.04-10.04C22.08 6.496 17.584 2 12.04 2zm0 18.238c-1.802 0-3.483-.559-4.877-1.517l-.35-.24-2.875.898.913-2.793-.243-.365c-1.03-1.55-1.568-3.37-1.568-5.221 0-4.542 3.696-8.238 8.24-8.238 4.544 0 8.24 3.696 8.24 8.238 0 4.542-3.696 8.238-8.24 8.238z" />
+        </svg>
+
+        {/* Small "CHAT" Pill under */}
+        <span className="absolute -bottom-2 bg-black border border-[#E10B1F] text-[9px] font-display px-1.5 py-0.2 tracking-wider uppercase text-white rounded">
+          CHAT
+        </span>
+      </button>
+    </div>
+  );
+}
+
+
+// --- MODULE: HomePage.jsx ---
+
+
+
+
+
+
+function HomePage({ navigateTo, onOpenGearCommunity, onOpenRentalModal }) {
+  // Animated counters state
+  const [counts, setCounts] = useState(siteConfig.stats.map(() => 0));
+
+  useEffect(() => {
+    const duration = 1800; // ms
+    const steps = 30;
+    const interval = duration / steps;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      const progress = Math.min(step / steps, 1);
+      // easeOutQuad
+      const eased = 1 - (1 - progress) * (1 - progress);
+      setCounts(siteConfig.stats.map(s => {
+        const val = s.value * eased;
+        return s.value % 1 === 0 ? Math.round(val) : parseFloat(val.toFixed(1));
+      }));
+
+      if (step >= steps) {
+        clearInterval(timer);
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleHeroWhatsApp = () => {
+    openWhatsApp(
+      `Hello Fighter Forge (+91 78389 66576), I'm ready to build my combat arena. Please consult me on Boxing Rings & MMA Cages.`
+    );
+  };
+
+  const handleRentalWhatsApp = () => {
+    openWhatsApp(
+      `Hello Fighter Forge (+91 78389 66576), I want to rent a Boxing Ring / MMA Cage for an upcoming combat event in India (IPBL / MMA Fight Night). Please share rental packages, logistics, and dates.`
+    );
+  };
+
+  return (
+    <div className="relative bg-[#0A0A0A] text-white overflow-hidden">
+      {/* =========================================================
+          1. HERO SECTION
+          ========================================================= */}
+      <section className="relative min-h-[92vh] sm:min-h-screen flex items-center justify-center pt-24 pb-16 px-4 bg-black overflow-hidden spotlight-top-red">
+        {/* Full-Bleed Dark Arena Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=2000&auto=format&fit=crop"
+            alt="Fighter Forge Dark Combat Arena"
+            className="w-full h-full object-cover object-center opacity-35 scale-105 animate-pulse"
+            style={{ animationDuration: '8s' }}
+          />
+          {/* Gradients to darken edges & blend into page */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-black/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-transparent to-[#0A0A0A]"></div>
+        </div>
+
+        {/* Faded Shield Watermark in Center */}
+        <img
+          src="./assets/fighter-forge-shield.png"
+          alt=""
+          aria-hidden="true"
+          className="shield-watermark w-[600px] sm:w-[850px] opacity-[0.045] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
+
+        <div className="relative z-10 max-w-5xl mx-auto text-center px-4 flex flex-col items-center">
+          {/* Red Slash & Brand Subhead */}
+          <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-zinc-900/90 border border-zinc-800 rounded-full mb-6">
+            <div className="diagonal-slash-pair scale-75">
+              <span></span>
+              <span></span>
+            </div>
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-zinc-300">
+              INDIAN-MADE / COMBAT SPORTS EQUIPMENT
+            </span>
+          </div>
+
+          {/* Main Slogan Headline */}
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-display tracking-tight text-white uppercase leading-[0.9] drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
+            BUILT FOR <span className="text-[#E10B1F]">CHAMPIONS.</span>
+          </h1>
+
+          {/* Subline */}
+          <p className="mt-6 text-base sm:text-xl md:text-2xl text-zinc-300 max-w-3xl font-normal leading-relaxed drop-shadow">
+            {siteConfig.subTagline} Heavy-gauge steel fabrication, competition-grade padding, and direct factory pricing.
+          </p>
+
+          {/* Dual CTAs: SHOP BOXING RINGS & SHOP MMA CAGES */}
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+            <button
+              onClick={() => navigateTo('boxing-rings')}
+              className="w-full sm:w-auto chamfer-btn bg-[#E10B1F] hover:bg-[#c80718] text-white px-8 py-4 font-display text-lg tracking-widest uppercase glow-red transition-all duration-300 flex items-center justify-center gap-2 group"
+            >
+              <span>SHOP BOXING RINGS</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </button>
+
+            <button
+              onClick={() => navigateTo('mma-cages')}
+              className="w-full sm:w-auto chamfer-btn bg-zinc-900 hover:bg-zinc-800 border-2 border-zinc-700 hover:border-[#E10B1F] text-white px-8 py-4 font-display text-lg tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2 group"
+            >
+              <span>SHOP MMA CAGES</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </button>
+          </div>
+
+          {/* Request a Custom Build Shortcut */}
+          <div className="mt-6">
+            <button
+              onClick={() => navigateTo('customize')}
+              className="text-xs sm:text-sm font-bold text-zinc-400 hover:text-[#C9A24B] tracking-widest uppercase transition-colors flex items-center gap-2 group"
+            >
+              <span className="text-[#C9A24B]">★</span>
+              <span>Need custom dimensions or gym branding? Request a Custom Build</span>
+              <span className="group-hover:translate-x-1 transition-transform text-[#C9A24B]">→</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+          <span className="text-[9px] font-mono tracking-widest text-zinc-400 uppercase mb-1">SCROLL</span>
+          <div className="w-4 h-7 border border-zinc-500 rounded-full flex justify-center p-1">
+            <div className="w-1 h-2 bg-[#E10B1F] rounded-full animate-bounce"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================
+          2. CLIENT LOGOS MOVING STRIP (RIGHT TO LEFT)
+          ========================================================= */}
+      <ClientLogosMarquee />
+
+      {/* =========================================================
+          3. TWO BIG CATEGORY CARDS (SPLIT SCREEN)
+          ========================================================= */}
+      <section className="relative py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+          {/* CARD 1: BOXING RINGS */}
+          <div
+            onClick={() => navigateTo('boxing-rings')}
+            className="group relative h-[420px] sm:h-[480px] bg-[#161616] border border-zinc-800 hover:border-[#E10B1F] overflow-hidden cursor-pointer transition-all duration-500 hover:shadow-[0_0_40px_rgba(225,11,31,0.35)]"
+            style={{
+              clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
+            }}
+          >
+            <img
+              src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=1200&auto=format&fit=crop"
+              alt="Fighter Forge Boxing Rings"
+              className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-108 opacity-65 group-hover:opacity-85"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent"></div>
+
+            {/* Red Accent Slash at Top Right */}
+            <div className="absolute top-4 right-4 z-10">
+              <div className="diagonal-slash-pair">
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            {/* Content Bottom */}
+            <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10 flex flex-col justify-end">
+              <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#E10B1F] mb-1 flex items-center gap-2">
+                <span>OLYMPIC & PRO ARENA LEVEL</span>
+              </div>
+              <h2 className="text-4xl sm:text-5xl font-display tracking-tight text-white uppercase group-hover:text-[#E10B1F] transition-colors">
+                BOXING RINGS
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-300 mt-2 max-w-md line-clamp-2">
+                Floor-level daily training rings to 3 ft (100 cm) Pro Competition stages. High-tensile 4-rope system & heavy corner pads.
+              </p>
+
+              <div className="mt-4 flex items-center gap-2 text-sm font-display tracking-widest text-white group-hover:text-[#E10B1F] transition-colors">
+                <span>EXPLORE RINGS</span>
+                <span className="text-lg group-hover:translate-x-2 transition-transform">→</span>
+              </div>
+            </div>
+          </div>
+
+          {/* CARD 2: MMA CAGES */}
+          <div
+            onClick={() => navigateTo('mma-cages')}
+            className="group relative h-[420px] sm:h-[480px] bg-[#161616] border border-zinc-800 hover:border-[#E10B1F] overflow-hidden cursor-pointer transition-all duration-500 hover:shadow-[0_0_40px_rgba(225,11,31,0.35)]"
+            style={{
+              clipPath: 'polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px)'
+            }}
+          >
+            <img
+              src="https://images.unsplash.com/photo-1517438476312-10d79c077509?q=80&w=1200&auto=format&fit=crop"
+              alt="Fighter Forge MMA Cages"
+              className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-108 opacity-65 group-hover:opacity-85"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent"></div>
+
+            {/* Red Accent Slash at Top Right */}
+            <div className="absolute top-4 right-4 z-10">
+              <div className="diagonal-slash-pair">
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            {/* Content Bottom */}
+            <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10 flex flex-col justify-end">
+              <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#E10B1F] mb-1 flex items-center gap-2">
+                <span>CHAMPIONSHIP OCTAGON & HEXAGON</span>
+              </div>
+              <h2 className="text-4xl sm:text-5xl font-display tracking-tight text-white uppercase group-hover:text-[#E10B1F] transition-colors">
+                MMA CAGES
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-300 mt-2 max-w-md line-clamp-2">
+                Unified rules fight cages. Heavy 9-gauge vinyl-dipped steel chainlink, zero-sag fence framing, and high-impact post bumpers.
+              </p>
+
+              <div className="mt-4 flex items-center gap-2 text-sm font-display tracking-widest text-white group-hover:text-[#E10B1F] transition-colors">
+                <span>EXPLORE CAGES</span>
+                <span className="text-lg group-hover:translate-x-2 transition-transform">→</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================
+          4. BRAND SLOGAN MARQUEE
+          ========================================================= */}
+      <SloganMarquee />
+
+      {/* =========================================================
+          EVENT RENTALS: IPBL & PRO MMA ARENA RENTALS ACROSS INDIA
+          ========================================================= */}
+      <section className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#12100C] via-[#0E0E0E] to-[#0A0A0A] border-y border-[#C9A24B]/40 overflow-hidden">
+        {/* Subtle Background Watermark */}
+        <img
+          src="./assets/fighter-forge-shield.png"
+          alt=""
+          aria-hidden="true"
+          className="shield-watermark right-[-5%] top-[-10%] w-[500px] opacity-[0.035]"
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 pb-8 border-b border-zinc-800">
+            <div className="space-y-3 max-w-3xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#C9A24B]/15 border border-[#C9A24B]/40 text-xs font-bold tracking-widest text-[#C9A24B] uppercase">
+                <span className="w-1.5 h-1.5 bg-[#C9A24B] animate-ping"></span>
+                <span>NATIONWIDE EVENT RENTALS • ALL INDIA</span>
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-display tracking-tight text-white uppercase leading-tight">
+                RENT BOXING RINGS & MMA CAGES FOR EVENTS IN INDIA
+              </h2>
+              <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
+                We supply and install competition-standard Boxing Rings and MMA Cages on rental for professional combat events across India—including <strong>IPBL (India Pro Boxing League)</strong>, State Championships, and mid-pro to UFC-caliber fight leagues. Complete logistics, dedicated erection crew, and teardown included.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 w-full sm:w-auto shrink-0">
+              <button
+                onClick={onOpenRentalModal}
+                className="chamfer-btn bg-[#E10B1F] hover:bg-[#c80718] text-white px-7 py-3.5 font-display text-sm sm:text-base tracking-widest uppercase glow-red transition-all flex items-center justify-center gap-2"
+              >
+                <span>RENT ON WHATSAPP</span>
+                <span className="text-lg">↗</span>
+              </button>
+            </div>
+          </div>
+
+          {/* 4 Feature Columns for Event Promoters */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8">
+            <div className="bg-[#141414] border border-zinc-800 p-5 rounded">
+              <div className="text-xs font-bold text-[#C9A24B] uppercase tracking-wider mb-1">
+                01. IPBL SPECIFICATION RINGS
+              </div>
+              <h4 className="font-display text-lg text-white uppercase tracking-wide">
+                ELEVATED & FLOOR RINGS
+              </h4>
+              <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
+                Official 16ft to 24ft competition rings with 1–2 ft and 3 ft (100 cm) Pro sanctioning clearances, rigid posts, and dual corner stairs.
+              </p>
+            </div>
+
+            <div className="bg-[#141414] border border-zinc-800 p-5 rounded">
+              <div className="text-xs font-bold text-[#C9A24B] uppercase tracking-wider mb-1">
+                02. UFC-STANDARD MMA OCTAGONS
+              </div>
+              <h4 className="font-display text-lg text-white uppercase tracking-wide">
+                20FT & 24FT PRO CAGES
+              </h4>
+              <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
+                Heavy 9-gauge smooth vinyl dip mesh with zero finger-snag, thick padded corner bumpers, and dual fighter/medic entry doors.
+              </p>
+            </div>
+
+            <div className="bg-[#141414] border border-zinc-800 p-5 rounded">
+              <div className="text-xs font-bold text-[#C9A24B] uppercase tracking-wider mb-1">
+                03. ON-SITE CREW & DISMANTLE
+              </div>
+              <h4 className="font-display text-lg text-white uppercase tracking-wide">
+                WHITE-GLOVE EVENT LOGISTICS
+              </h4>
+              <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
+                Our certified installation crew travels with the hardware. We erect the arena, verify tension safety, and pack up post-event.
+              </p>
+            </div>
+
+            <div className="bg-[#141414] border border-zinc-800 p-5 rounded">
+              <div className="text-xs font-bold text-[#C9A24B] uppercase tracking-wider mb-1">
+                04. CUSTOM SPONSOR BRANDING
+              </div>
+              <h4 className="font-display text-lg text-white uppercase tracking-wide">
+                BROADCAST-READY GRAPHICS
+              </h4>
+              <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
+                Custom canvas center logo printing, ring skirts, and corner bumper covers tailored to your fight night sponsors and broadcast needs.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================
+          5. WHY FIGHTER FORGE (6 FEATURE BLOCKS)
+          ========================================================= */}
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-[#E10B1F] uppercase mb-2">
+            <span>// NO SHORTCUTS. NO COMPROMISE.</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-display tracking-tight text-white uppercase">
+            WHY FIGHTER FORGE HARDWARE
+          </h2>
+          <p className="text-sm sm:text-base text-zinc-400 mt-3 leading-relaxed">
+            Every millimeter of steel, foam, and vinyl is precision engineered for championship athletes who test equipment to the absolute limit.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {siteConfig.whyUs.map((feature, idx) => (
+            <div
+              key={idx}
+              className="bg-[#141414] border border-zinc-800 p-6 sm:p-7 hover:border-[#E10B1F]/60 transition-all duration-300 hover:-translate-y-1 group"
+              style={{
+                clipPath: 'polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)'
+              }}
+            >
+              <div className="w-12 h-12 bg-black border border-zinc-800 group-hover:border-[#E10B1F] flex items-center justify-center text-[#E10B1F] font-bold text-lg mb-5 transition-colors">
+                0{idx + 1}
+              </div>
+              <h3 className="text-xl font-display text-white tracking-wider uppercase group-hover:text-[#E10B1F] transition-colors">
+                {feature.title}
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-400 mt-2.5 leading-relaxed">
+                {feature.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================
+          6. ELEVATION SPOTLIGHT & BLUEPRINT DIAGRAM
+          ========================================================= */}
+      <ElevationDiagram />
+
+      {/* =========================================================
+          7. CUSTOMIZE SECTION (VERY VISIBLE)
+          ========================================================= */}
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#0A0A0A] via-[#14120D] to-[#0A0A0A] border-y border-zinc-800 overflow-hidden">
+        <div className="relative z-10 max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10">
+          <div className="max-w-2xl space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#C9A24B]/15 border border-[#C9A24B]/40 text-xs font-bold tracking-widest text-[#C9A24B] uppercase">
+              <span>★ BESPOKE ARENA ENGINEERING</span>
+            </div>
+            <h2 className="text-4xl sm:text-6xl font-display tracking-tight text-white uppercase leading-none">
+              YOUR RING. YOUR CAGE. <br />
+              <span className="text-[#C9A24B]">YOUR BRAND.</span>
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
+              Don't settle for generic off-the-shelf equipment. We manufacture custom dimensions, custom frame heights, and print high-contrast gym logos on canvases, corner pads, and fence bumpers.
+            </p>
+            <div className="grid grid-cols-2 gap-3 pt-2 text-xs text-zinc-300">
+              <div className="flex items-center gap-2">
+                <span className="text-[#C9A24B] font-bold">✔</span>
+                <span>Custom Ring & Cage Dimensions</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#C9A24B] font-bold">✔</span>
+                <span>Full Logo Canvas Printing</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#C9A24B] font-bold">✔</span>
+                <span>Custom Corner Pad Colors</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#C9A24B] font-bold">✔</span>
+                <span>Free 2D/3D CAD Gym Blueprint</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row lg:flex-col gap-4 w-full sm:w-auto">
+            <button
+              onClick={() => navigateTo('customize')}
+              className="chamfer-btn bg-[#C9A24B] hover:bg-[#b8913a] text-black font-bold px-8 py-4 text-base font-display tracking-widest uppercase glow-gold transition-all duration-300 text-center"
+            >
+              CUSTOMIZE YOURS NOW →
+            </button>
+            <button
+              onClick={() => {
+                openWhatsApp(
+                  `Hello Fighter Forge, I have a custom gym layout and I want an engineered quote for a bespoke Ring / Cage build.`
+                );
+              }}
+              className="chamfer-btn-sm bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-white px-6 py-3 text-xs font-bold tracking-widest uppercase transition-all text-center flex items-center justify-center gap-2"
+            >
+              <span>WHATSAPP CAD CONSULTATION</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================
+          8. HOW IT WORKS (4 STEPS)
+          ========================================================= */}
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="text-xs font-bold tracking-widest text-[#E10B1F] uppercase mb-2">
+            // SEAMLESS PROCESS
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-display tracking-tight text-white uppercase">
+            HOW IT WORKS
+          </h2>
+          <p className="text-sm text-zinc-400 mt-2">
+            Zero online payment hassle. Fast direct-from-factory quotes delivered to your phone.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {siteConfig.howItWorks.map((step) => (
+            <div
+              key={step.step}
+              className="bg-[#141414] border border-zinc-800 p-6 flex flex-col justify-between hover:border-[#E10B1F] transition-all"
+              style={{
+                clipPath: 'polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)'
+              }}
+            >
+              <div>
+                <div className="font-display text-4xl text-[#E10B1F] tracking-tight mb-3">
+                  {step.step}
+                </div>
+                <h3 className="text-lg font-display text-white tracking-wider uppercase mb-2">
+                  {step.title}
+                </h3>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================
+          9. GEAR LOCKER TEASER & COMMUNITY BUILDER
+          ========================================================= */}
+      <section className="relative py-16 px-4 sm:px-6 lg:px-8 bg-[#111111] border-y border-zinc-800">
+        <div className="max-w-7xl mx-auto bg-black border border-zinc-800 p-8 sm:p-12 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="max-w-2xl space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#E10B1F]/20 text-[#E10B1F] border border-[#E10B1F] text-xs font-bold uppercase tracking-wider">
+              <span>⚡ UPCOMING COMBAT GEAR</span>
+            </div>
+            <h3 className="text-3xl sm:text-4xl font-display uppercase tracking-wide text-white">
+              {siteConfig.upcomingGear.subtitle}
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+              {siteConfig.upcomingGear.description}
+            </p>
+
+            <div className="flex flex-wrap gap-2 pt-2">
+              {siteConfig.upcomingGear.categories.map((cat, i) => (
+                <span
+                  key={i}
+                  className="text-[11px] bg-zinc-900 border border-zinc-800 text-zinc-300 px-3 py-1 rounded"
+                >
+                  • {cat.name} ({cat.status})
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto shrink-0">
+            <button
+              onClick={onOpenGearCommunity}
+              className="chamfer-btn bg-[#E10B1F] hover:bg-[#c80718] text-white px-6 py-3.5 text-xs sm:text-sm font-display tracking-widest uppercase glow-red transition-all text-center flex items-center justify-center gap-2"
+            >
+              <span>SUBMIT GEAR IDEAS / SHAPE SKUS</span>
+              <span>💡</span>
+            </button>
+            <button
+              onClick={() => {
+                openWhatsApp(
+                  `Hello Fighter Forge, please notify me on WhatsApp as soon as your Boxing Gloves & Combat Gear drop!`
+                );
+              }}
+              className="chamfer-btn-sm bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 px-5 py-3.5 text-xs font-bold tracking-wider uppercase transition-all text-center"
+            >
+              NOTIFY ME ON WHATSAPP
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================
+          10. STATS BAR WITH ANIMATED COUNTERS
+          ========================================================= */}
+      <section className="relative py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          {siteConfig.stats.map((stat, i) => (
+            <div
+              key={i}
+              className="bg-[#141414] border border-zinc-800 p-6 text-center group hover:border-[#E10B1F] transition-all"
+              style={{
+                clipPath: 'polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)'
+              }}
+            >
+              <div className="text-4xl sm:text-6xl font-display text-white tracking-tight group-hover:text-[#E10B1F] transition-colors">
+                {counts[i]}
+                {stat.suffix}
+              </div>
+              <div className="font-display text-sm tracking-wider uppercase text-zinc-300 mt-1">
+                {stat.label}
+              </div>
+              <div className="text-[11px] text-zinc-500 mt-1">
+                {stat.description}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================
+          11. FINAL CTA BANNER
+          ========================================================= */}
+      <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-black text-center border-t border-zinc-800 spotlight-bottom-red">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="diagonal-slash-pair">
+            <span></span>
+            <span></span>
+          </div>
+          <h2 className="text-4xl sm:text-7xl font-display tracking-tight text-white uppercase leading-none">
+            READY TO BUILD <br />
+            <span className="text-[#E10B1F]">YOUR ARENA?</span>
+          </h2>
+          <p className="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+            Direct from our heavy steel fabrication facility to your venue. Get custom sizes, engineered blueprints, and instant quotes on WhatsApp today.
+          </p>
+
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={handleHeroWhatsApp}
+              className="w-full sm:w-auto chamfer-btn bg-[#E10B1F] hover:bg-[#c80718] text-white px-10 py-4 font-display text-xl tracking-widest uppercase glow-red transition-all flex items-center justify-center gap-3"
+            >
+              <span>TALK TO AN ENGINEER ON WHATSAPP</span>
+              <span>↗</span>
+            </button>
+            <button
+              onClick={() => navigateTo('customize')}
+              className="w-full sm:w-auto chamfer-btn-sm bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-white px-8 py-4 font-display text-base tracking-widest uppercase transition-all"
+            >
+              OPEN CUSTOM ARENA BUILDER
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+
+// --- MODULE: BoxingRingsPage.jsx ---
+
+
+
+
+function BoxingRingsPage({ navigateTo, onOpenRentalModal }) {
+  const [activeFilter, setActiveFilter] = useState('all'); // 'all', 'floor', 'elevated'
+  const [elevatedHeightFilter, setElevatedHeightFilter] = useState('all'); // 'all', '1-2ft', '3ft'
+
+  const rings = siteConfig.boxingRings;
+
+  const filteredRings = rings.filter((ring) => {
+    if (activeFilter === 'floor') return ring.category === 'floor';
+    if (activeFilter === 'elevated') {
+      if (elevatedHeightFilter === '1-2ft') return ring.id.includes('training') || ring.id.includes('1-2');
+      if (elevatedHeightFilter === '3ft') return ring.isPro;
+      return ring.category === 'elevated';
+    }
+    return true;
+  });
+
+  const handleCustomEnquiry = () => {
+    navigateTo('customize');
+  };
+
+  const handleWhatsAppConsult = () => {
+    openWhatsApp(
+      `Hello Fighter Forge (+91 78389 66576), I need expert sizing advice and a quote for a Boxing Ring. My gym/event dimensions are...`
+    );
+  };
+
+  const handleWhatsAppRingRental = () => {
+    openWhatsApp(
+      `Hello Fighter Forge (+91 78389 66576), I want to rent an IPBL-standard Boxing Ring for an upcoming boxing tournament / fight night in India. Please share rental rates, transport, and availability.`
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0A0A0A] text-white pt-24 pb-20">
+      {/* Page Header with Breadcrumb */}
+      <section className="relative py-12 px-4 sm:px-6 lg:px-8 border-b border-zinc-800 bg-[#0F0F0F] spotlight-top-red overflow-hidden">
+        {/* Shield Watermark */}
+        <img
+          src="./assets/fighter-forge-shield.png"
+          alt=""
+          aria-hidden="true"
+          className="shield-watermark right-[-5%] top-[-20%] w-[450px]"
+        />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-3">
+            <button onClick={() => navigateTo('home')} className="hover:text-white transition-colors">
+              HOME
+            </button>
+            <span>/</span>
+            <span className="text-[#E10B1F]">BOXING RINGS</span>
+          </div>
+
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.25em] text-[#E10B1F] uppercase mb-2">
+                <span className="diagonal-slash scale-75"></span>
+                <span>HEAVY-GAUGE ARENA STEEL</span>
+              </div>
+              <h1 className="text-4xl sm:text-6xl font-display uppercase tracking-tight text-white leading-none">
+                BOXING RINGS
+              </h1>
+              <p className="text-sm sm:text-base text-zinc-400 mt-2 max-w-2xl leading-relaxed">
+                Olympic regulation and professional championship boxing rings. Manufactured with heavy square-tube corner posts, high-tensile 4-rope safety systems, and dual-layer acoustic dampening.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={onOpenRentalModal}
+                className="chamfer-btn-sm bg-gradient-to-r from-[#C9A24B] to-[#b58f3c] text-black font-bold px-5 py-3 text-xs font-display tracking-widest uppercase transition-all flex items-center gap-2 glow-gold"
+              >
+                <span>RENT RINGS FOR EVENTS</span>
+                <span>↗</span>
+              </button>
+              <button
+                onClick={handleWhatsAppConsult}
+                className="chamfer-btn-sm bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-white px-5 py-3 text-xs font-display tracking-widest uppercase transition-all flex items-center gap-2"
+              >
+                <span>RING SIZING GUIDE</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Filter Tabs & Height Controls */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-800">
+          {/* Category Tabs: ALL | FLOOR | ELEVATED */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setActiveFilter('all')}
+              className={`px-4 py-2 text-xs font-display tracking-widest uppercase rounded border transition-all ${
+                activeFilter === 'all'
+                  ? 'bg-[#E10B1F] border-[#E10B1F] text-white glow-red'
+                  : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
+              }`}
+            >
+              ALL BOXING RINGS ({rings.length})
+            </button>
+
+            <button
+              onClick={() => setActiveFilter('floor')}
+              className={`px-4 py-2 text-xs font-display tracking-widest uppercase rounded border transition-all ${
+                activeFilter === 'floor'
+                  ? 'bg-[#E10B1F] border-[#E10B1F] text-white glow-red'
+                  : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
+              }`}
+            >
+              FLOOR-LEVEL RINGS
+            </button>
+
+            <button
+              onClick={() => setActiveFilter('elevated')}
+              className={`px-4 py-2 text-xs font-display tracking-widest uppercase rounded border transition-all ${
+                activeFilter === 'elevated'
+                  ? 'bg-[#E10B1F] border-[#E10B1F] text-white glow-red'
+                  : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
+              }`}
+            >
+              ELEVATED RINGS
+            </button>
+          </div>
+
+          {/* Elevated Height Sub-Filter (Visible when Elevated or All selected) */}
+          {(activeFilter === 'elevated' || activeFilter === 'all') && (
+            <div className="flex items-center gap-2 bg-zinc-900/90 border border-zinc-800 p-1.5 rounded">
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider px-2">
+                HEIGHT:
+              </span>
+
+              <button
+                onClick={() => setElevatedHeightFilter('all')}
+                className={`px-2.5 py-1 text-[11px] font-semibold rounded transition-colors ${
+                  elevatedHeightFilter === 'all'
+                    ? 'bg-zinc-700 text-white'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                All
+              </button>
+
+              <button
+                onClick={() => setElevatedHeightFilter('1-2ft')}
+                className={`px-2.5 py-1 text-[11px] font-semibold rounded transition-colors ${
+                  elevatedHeightFilter === '1-2ft'
+                    ? 'bg-[#E10B1F] text-white'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                1–2 ft Training
+              </button>
+
+              <button
+                onClick={() => setElevatedHeightFilter('3ft')}
+                className={`px-2.5 py-1 text-[11px] font-bold rounded flex items-center gap-1 transition-colors ${
+                  elevatedHeightFilter === '3ft'
+                    ? 'bg-[#C9A24B] text-black'
+                    : 'text-[#C9A24B] hover:bg-[#C9A24B]/10'
+                }`}
+              >
+                <span>★ 3 ft Pro (100 cm)</span>
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Event Rental Banner for Promoters */}
+        <div className="mt-4 p-5 bg-gradient-to-r from-[#17130C] via-[#121212] to-black border-2 border-[#C9A24B] rounded flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#E10B1F] animate-ping"></span>
+              <span className="text-xs font-bold text-[#C9A24B] uppercase tracking-widest">
+                EVENT RENTALS ACROSS INDIA • IPBL & PRO FIGHT NIGHTS
+              </span>
+            </div>
+            <div className="text-lg font-display text-white uppercase tracking-wide">
+              NEED A COMPETITION BOXING RING ON RENTAL FOR YOUR EVENT?
+            </div>
+            <p className="text-xs text-zinc-300 max-w-2xl leading-relaxed">
+              We provide elevated 3ft Pro and training rings on rental for IPBL (India Pro Boxing League), state championships, and televised fight nights across India. Includes certified on-site setup crew, acoustic subfloor, and teardown.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-2.5 shrink-0">
+            <button
+              onClick={onOpenRentalModal}
+              className="chamfer-btn-sm bg-[#E10B1F] hover:bg-[#c80718] text-white px-5 py-2.5 text-xs font-display tracking-widest uppercase glow-red flex items-center justify-center gap-1.5"
+            >
+              <span>RENT ON WHATSAPP</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Product Cards Grid */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredRings.map((ring) => (
+            <ProductCard key={ring.id} product={ring} />
+          ))}
+        </div>
+      </section>
+
+      {/* Bottom Customization Banner */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <div
+          className="relative bg-[#161616] border border-zinc-800 p-8 sm:p-12 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8"
+          style={{
+            clipPath: 'polygon(16px 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%, 0% 16px)'
+          }}
+        >
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 text-xs font-bold text-[#C9A24B] uppercase tracking-wider">
+              <span>★ BESPOKE FABRICATION</span>
+            </div>
+            <h3 className="text-3xl sm:text-4xl font-display text-white uppercase tracking-wide">
+              NEED A SPECIFIC SIZE OR GYM LOGO CANVAS?
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+              We manufacture non-standard sizes (e.g. 15×15 ft, 22×22 ft), custom rope wrapping, custom corner cushion colors, and print your gym logo sharp on the canvas.
+            </p>
+          </div>
+
+          <button
+            onClick={handleCustomEnquiry}
+            className="chamfer-btn bg-[#C9A24B] hover:bg-[#b8913a] text-black font-bold px-8 py-4 text-sm font-display tracking-widest uppercase glow-gold transition-all whitespace-nowrap"
+          >
+            CUSTOMIZE YOUR RING →
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+
+// --- MODULE: MmaCagesPage.jsx ---
+
+
+
+
+function MmaCagesPage({ navigateTo, onOpenRentalModal }) {
+  const [activeFilter, setActiveFilter] = useState('all'); // 'all', 'floor', 'elevated'
+  const [elevatedHeightFilter, setElevatedHeightFilter] = useState('all'); // 'all', '1-2ft', '3ft'
+
+  const cages = siteConfig.mmaCages;
+
+  const filteredCages = cages.filter((cage) => {
+    if (activeFilter === 'floor') return cage.category === 'floor';
+    if (activeFilter === 'elevated') {
+      if (elevatedHeightFilter === '1-2ft') return cage.id.includes('training') || cage.id.includes('1-2');
+      if (elevatedHeightFilter === '3ft') return cage.isPro;
+      return cage.category === 'elevated';
+    }
+    return true;
+  });
+
+  const handleCustomEnquiry = () => {
+    navigateTo('customize');
+  };
+
+  const handleWhatsAppConsult = () => {
+    openWhatsApp(
+      `Hello Fighter Forge (+91 78389 66576), I'm looking for an MMA Cage for my gym/event. Please advise on Octagon vs Hexagon and elevated vs floor.`
+    );
+  };
+
+  const handleWhatsAppCageRental = () => {
+    openWhatsApp(
+      `Hello Fighter Forge (+91 78389 66576), I want to rent a Championship MMA Octagon for an upcoming MMA fight event in India. Please share rental rates, transport, and availability.`
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0A0A0A] text-white pt-24 pb-20">
+      {/* Header */}
+      <section className="relative py-12 px-4 sm:px-6 lg:px-8 border-b border-zinc-800 bg-[#0F0F0F] spotlight-top-red overflow-hidden">
+        {/* Shield Watermark */}
+        <img
+          src="./assets/fighter-forge-shield.png"
+          alt=""
+          aria-hidden="true"
+          className="shield-watermark right-[-5%] top-[-20%] w-[450px]"
+        />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-3">
+            <button onClick={() => navigateTo('home')} className="hover:text-white transition-colors">
+              HOME
+            </button>
+            <span>/</span>
+            <span className="text-[#E10B1F]">MMA CAGES</span>
+          </div>
+
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.25em] text-[#E10B1F] uppercase mb-2">
+                <span className="diagonal-slash scale-75"></span>
+                <span>UNIFIED RULES COMPETITION SPEC</span>
+              </div>
+              <h1 className="text-4xl sm:text-6xl font-display uppercase tracking-tight text-white leading-none">
+                MMA CAGES & OCTAGONS
+              </h1>
+              <p className="text-sm sm:text-base text-zinc-400 mt-2 max-w-2xl leading-relaxed">
+                Heavy-gauge welded steel fight cages. Engineered with 9-gauge vinyl-coated anti-snag mesh, thick protective post bumpers, fail-safe security doors, and pro stadium elevation.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={onOpenRentalModal}
+                className="chamfer-btn-sm bg-gradient-to-r from-[#C9A24B] to-[#b58f3c] text-black font-bold px-5 py-3 text-xs font-display tracking-widest uppercase transition-all flex items-center gap-2 glow-gold"
+              >
+                <span>RENT MMA CAGES FOR EVENTS</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Filter Tabs & Height Controls */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-800">
+          {/* Category Tabs: ALL | FLOOR | ELEVATED */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setActiveFilter('all')}
+              className={`px-4 py-2 text-xs font-display tracking-widest uppercase rounded border transition-all ${
+                activeFilter === 'all'
+                  ? 'bg-[#E10B1F] border-[#E10B1F] text-white glow-red'
+                  : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
+              }`}
+            >
+              ALL MMA CAGES ({cages.length})
+            </button>
+
+            <button
+              onClick={() => setActiveFilter('floor')}
+              className={`px-4 py-2 text-xs font-display tracking-widest uppercase rounded border transition-all ${
+                activeFilter === 'floor'
+                  ? 'bg-[#E10B1F] border-[#E10B1F] text-white glow-red'
+                  : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
+              }`}
+            >
+              FLOOR-LEVEL CAGES
+            </button>
+
+            <button
+              onClick={() => setActiveFilter('elevated')}
+              className={`px-4 py-2 text-xs font-display tracking-widest uppercase rounded border transition-all ${
+                activeFilter === 'elevated'
+                  ? 'bg-[#E10B1F] border-[#E10B1F] text-white glow-red'
+                  : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'
+              }`}
+            >
+              ELEVATED CAGES
+            </button>
+          </div>
+
+          {/* Elevated Height Sub-Filter */}
+          {(activeFilter === 'elevated' || activeFilter === 'all') && (
+            <div className="flex items-center gap-2 bg-zinc-900/90 border border-zinc-800 p-1.5 rounded">
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider px-2">
+                HEIGHT:
+              </span>
+
+              <button
+                onClick={() => setElevatedHeightFilter('all')}
+                className={`px-2.5 py-1 text-[11px] font-semibold rounded transition-colors ${
+                  elevatedHeightFilter === 'all'
+                    ? 'bg-zinc-700 text-white'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                All
+              </button>
+
+              <button
+                onClick={() => setElevatedHeightFilter('1-2ft')}
+                className={`px-2.5 py-1 text-[11px] font-semibold rounded transition-colors ${
+                  elevatedHeightFilter === '1-2ft'
+                    ? 'bg-[#E10B1F] text-white'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                1–2 ft Event
+              </button>
+
+              <button
+                onClick={() => setElevatedHeightFilter('3ft')}
+                className={`px-2.5 py-1 text-[11px] font-bold rounded flex items-center gap-1 transition-colors ${
+                  elevatedHeightFilter === '3ft'
+                    ? 'bg-[#C9A24B] text-black'
+                    : 'text-[#C9A24B] hover:bg-[#C9A24B]/10'
+                }`}
+              >
+                <span>★ 3 ft Pro (100 cm)</span>
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Event Rental Banner for Promoters */}
+        <div className="mt-4 p-5 bg-gradient-to-r from-[#17130C] via-[#121212] to-black border-2 border-[#C9A24B] rounded flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#E10B1F] animate-ping"></span>
+              <span className="text-xs font-bold text-[#C9A24B] uppercase tracking-widest">
+                EVENT RENTALS ACROSS INDIA • PRO MMA FIGHT NIGHTS & LEAGUES
+              </span>
+            </div>
+            <div className="text-lg font-display text-white uppercase tracking-wide">
+              NEED AN MMA OCTAGON CAGE ON RENTAL FOR YOUR FIGHT EVENT?
+            </div>
+            <p className="text-xs text-zinc-300 max-w-2xl leading-relaxed">
+              We supply Unified Rules 20ft & 24ft Elevated Championship Octagons on rental across all Indian states. High-impact post padding, 9-gauge vinyl-coated wire, sound-dampened subfloor, certified setup crew, and teardown included.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-2.5 shrink-0">
+            <button
+              onClick={onOpenRentalModal}
+              className="chamfer-btn-sm bg-[#E10B1F] hover:bg-[#c80718] text-white px-5 py-2.5 text-xs font-display tracking-widest uppercase glow-red flex items-center justify-center gap-1.5"
+            >
+              <span>RENT ON WHATSAPP</span>
+              <span>↗</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Product Cards Grid */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredCages.map((cage) => (
+            <ProductCard key={cage.id} product={cage} />
+          ))}
+        </div>
+      </section>
+
+      {/* Bottom Customization Banner */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <div
+          className="relative bg-[#161616] border border-zinc-800 p-8 sm:p-12 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8"
+          style={{
+            clipPath: 'polygon(16px 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%, 0% 16px)'
+          }}
+        >
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 text-xs font-bold text-[#C9A24B] uppercase tracking-wider">
+              <span>★ BESPOKE CAGE ARCHITECTURE</span>
+            </div>
+            <h3 className="text-3xl sm:text-4xl font-display text-white uppercase tracking-wide">
+              NEED A CUSTOM DIAMETER, SHAPE OR CORNER LOGOS?
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+              We fabricate custom cage dimensions from compact 14 ft gym cages up to 30 ft stadium octagons. Custom colored post pads, vinyl fence skirts, and mat branding available.
+            </p>
+          </div>
+
+          <button
+            onClick={handleCustomEnquiry}
+            className="chamfer-btn bg-[#C9A24B] hover:bg-[#b8913a] text-black font-bold px-8 py-4 text-sm font-display tracking-widest uppercase glow-gold transition-all whitespace-nowrap"
+          >
+            CUSTOMIZE YOUR CAGE →
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+
+// --- MODULE: CartEnquiryPage.jsx ---
+
+
+
+
+
+function CartEnquiryPage({ navigateTo, onOpenRentalModal }) {
+  const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
+
+  const [customer, setCustomer] = useState({
+    name: '',
+    phone: '',
+    city: '',
+    notes: ''
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [lastSentMessage, setLastSentMessage] = useState('');
+
+  const calculateSubtotal = () => {
+    return cartItems.reduce((acc, item) => {
+      const price = item.priceNumeric || 0;
+      return acc + price * (item.quantity || 1);
+    }, 0);
+  };
+
+  const handleSendEnquiry = async (e) => {
+    e.preventDefault();
+    if (!customer.name.trim() || !customer.phone.trim() || !customer.city.trim()) {
+      alert('Please provide your Name, Phone Number, and City so we can calculate factory dispatch logistics.');
+      return;
+    }
+
+    if (cartItems.length === 0) {
+      alert('Your enquiry cart is empty. Please add a Boxing Ring or MMA Cage first.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const message = formatCartEnquiryMessage({
+      items: cartItems,
+      customer
+    });
+    setLastSentMessage(message);
+
+    // 1. Save enquiry to backend / MongoDB backup
+    await saveCartEnquiry({
+      items: cartItems,
+      customer,
+      subtotal: calculateSubtotal()
+    });
+
+    setIsSubmitting(false);
+    setSubmitted(true);
+
+    // 2. Open WhatsApp with formatted text
+    openWhatsApp(message);
+  };
+
+  const handleDirectChat = () => {
+    openWhatsApp(
+      `Hello Fighter Forge, I have a few questions about your Boxing Rings and MMA Cages before submitting a full quote.`
+    );
+  };
+
+  // SUCCESS CONFIRMATION VIEW
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-[#0A0A0A] text-white pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl mx-auto bg-[#141414] border border-[#E10B1F]/60 p-8 sm:p-12 text-center space-y-6 shadow-2xl rounded">
+          <div className="w-16 h-16 mx-auto rounded-full bg-[#E10B1F]/20 border-2 border-[#E10B1F] flex items-center justify-center text-[#E10B1F] text-3xl font-bold animate-bounce">
+            ✓
+          </div>
+
+          <div className="space-y-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#E10B1F]">
+              ENQUIRY TRANSMITTED SUCCESSFULLY
+            </span>
+            <h1 className="text-3xl sm:text-5xl font-display text-white uppercase tracking-tight">
+              YOUR ARENA QUOTE IS ON ITS WAY
+            </h1>
+            <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed max-w-lg mx-auto">
+              Your specifications have been recorded in our factory database and WhatsApp was opened. Our engineering desk will respond with your official quotation, CAD layout drawings, and estimated dispatch dates.
+            </p>
+          </div>
+
+          <div className="p-4 bg-black/60 border border-zinc-800 rounded text-left text-xs text-zinc-400 space-y-1">
+            <div className="text-zinc-200 font-bold mb-1">Enquiry Summary:</div>
+            <div>• Name: <span className="text-white font-semibold">{customer.name}</span></div>
+            <div>• Phone: <span className="text-white font-semibold">{customer.phone}</span></div>
+            <div>• City: <span className="text-white font-semibold">{customer.city}</span></div>
+            <div>• Items: <span className="text-white font-semibold">{cartItems.length} Arena Configuration(s)</span></div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
+            <button
+              onClick={() => openWhatsApp(lastSentMessage)}
+              className="w-full sm:w-auto chamfer-btn bg-[#E10B1F] hover:bg-[#c80718] text-white px-8 py-3.5 font-display text-sm tracking-widest uppercase glow-red"
+            >
+              RE-OPEN WHATSAPP CHAT ↗
+            </button>
+            <button
+              onClick={() => {
+                clearCart();
+                navigateTo('home');
+              }}
+              className="w-full sm:w-auto chamfer-btn-sm bg-zinc-900 border border-zinc-700 text-zinc-300 hover:text-white px-6 py-3.5 text-xs font-bold uppercase tracking-wider"
+            >
+              RETURN TO HOME
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // EMPTY STATE VIEW
+  if (cartItems.length === 0) {
+    return (
+      <div className="min-h-screen bg-[#0A0A0A] text-white pt-28 pb-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+        <div className="max-w-md w-full bg-[#141414] border border-zinc-800 p-8 sm:p-10 text-center space-y-6 rounded">
+          <div className="w-16 h-16 mx-auto rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-zinc-500">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+          </div>
+
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-display uppercase tracking-wide text-white">
+              YOUR ENQUIRY CART IS EMPTY
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed">
+              Explore our heavy-gauge Boxing Rings and MMA Cages to build your arena setup and request a factory quotation.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3 pt-2">
+            <button
+              onClick={() => navigateTo('boxing-rings')}
+              className="chamfer-btn bg-[#E10B1F] hover:bg-[#c80718] text-white py-3.5 font-display tracking-widest text-sm uppercase glow-red transition-all"
+            >
+              EXPLORE BOXING RINGS →
+            </button>
+            <button
+              onClick={() => navigateTo('mma-cages')}
+              className="chamfer-btn-sm bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-white py-3.5 text-xs font-bold tracking-widest uppercase transition-all"
+            >
+              EXPLORE MMA CAGES →
+            </button>
+            <button
+              onClick={() => navigateTo('customize')}
+              className="text-xs text-[#C9A24B] hover:underline font-bold uppercase tracking-wider pt-1"
+            >
+              Or Build a Custom Arena from Scratch ★
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // STANDARD CART / ENQUIRY VIEW
+  return (
+    <div className="min-h-screen bg-[#0A0A0A] text-white pt-24 pb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="py-6 border-b border-zinc-800">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-2">
+            <button onClick={() => navigateTo('home')} className="hover:text-white">
+              HOME
+            </button>
+            <span>/</span>
+            <span className="text-[#E10B1F]">YOUR ENQUIRY CART</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-display uppercase tracking-tight text-white leading-none">
+            YOUR ENQUIRY CART
+          </h1>
+          {/* Prominent No Payment Notice */}
+          <div className="mt-3 p-3 bg-zinc-900 border-l-4 border-[#E10B1F] text-xs text-zinc-300">
+            <strong>Factory Direct Policy:</strong> No online payment. Send your enquiry and we'll confirm the price, CAD drawings, and logistics on WhatsApp.
+          </div>
+
+          {/* Event Rental Option Banner */}
+          <div className="mt-3 p-3.5 bg-gradient-to-r from-[#17130C] to-black border border-[#C9A24B] rounded flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="text-[#C9A24B] font-bold text-sm">🏟️</span>
+              <span className="text-zinc-200">
+                <strong>Hosting an event or fight league in India?</strong> You can also <span className="text-[#C9A24B] font-bold">RENT</span> these Boxing Rings & MMA Cages for IPBL, state championships, or fight nights with full erection crew & teardown!
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={onOpenRentalModal}
+              className="chamfer-btn-sm bg-[#C9A24B] hover:bg-[#b8913a] text-black font-bold px-3 py-1.5 font-display tracking-widest uppercase whitespace-nowrap self-start sm:self-auto"
+            >
+              RENT ON WHATSAPP ↗
+            </button>
+          </div>
+        </div>
+
+        {/* Two-Column Layout: Items on Left, Form on Right */}
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Cart Items List (Col 1-7) */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-zinc-400 pb-2 border-b border-zinc-800">
+              <span>CONFIGURED HARDWARE ({cartItems.length})</span>
+              <button
+                onClick={clearCart}
+                className="text-zinc-500 hover:text-[#E10B1F] transition-colors"
+              >
+                Clear Cart
+              </button>
+            </div>
+
+            {cartItems.map((item) => (
+              <div
+                key={item.cartId}
+                className="bg-[#141414] border border-zinc-800 p-4 sm:p-5 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between transition-all hover:border-zinc-700"
+                style={{
+                  clipPath: 'polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)'
+                }}
+              >
+                {/* Thumb */}
+                <div className="w-full sm:w-24 h-24 bg-black rounded overflow-hidden shrink-0">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Details */}
+                <div className="flex-1 space-y-1">
+                  <h3 className="font-display text-lg tracking-wide uppercase text-white">
+                    {item.name}
+                  </h3>
+                  <div className="flex flex-wrap gap-2 text-xs text-zinc-400">
+                    {item.selectedSize && (
+                      <span className="bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded text-white font-medium">
+                        Size: {item.selectedSize}
+                      </span>
+                    )}
+                    {item.selectedHeight && (
+                      <span className="bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded text-zinc-300">
+                        Elevation: {item.selectedHeight}
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs text-zinc-400 pt-1 font-mono">
+                    {item.priceNumeric ? (
+                      <span>
+                        Est. Unit: {new Intl.NumberFormat('en-IN', {
+                          style: 'currency',
+                          currency: 'INR',
+                          maximumFractionDigits: 0
+                        }).format(item.priceNumeric)}
+                      </span>
+                    ) : (
+                      <span className="text-[#E10B1F] font-bold">Quote on WhatsApp</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Stepper & Delete */}
+                <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end pt-2 sm:pt-0 border-t sm:border-t-0 border-zinc-800">
+                  <div className="flex items-center bg-black border border-zinc-800 rounded">
+                    <button
+                      onClick={() => updateQuantity(item.cartId, item.quantity - 1)}
+                      className="px-2.5 py-1 text-zinc-400 hover:text-white"
+                      aria-label="Decrease"
+                    >
+                      -
+                    </button>
+                    <span className="px-2.5 text-xs font-bold text-white min-w-[20px] text-center">
+                      {item.quantity}
+                    </span>
+                    <button
+                      onClick={() => updateQuantity(item.cartId, item.quantity + 1)}
+                      className="px-2.5 py-1 text-zinc-400 hover:text-white"
+                      aria-label="Increase"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={() => removeFromCart(item.cartId)}
+                    className="p-1.5 text-zinc-500 hover:text-[#E10B1F] transition-colors"
+                    title="Remove item"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            <div className="pt-2 flex items-center justify-between text-xs text-zinc-500">
+              <button
+                onClick={() => navigateTo('boxing-rings')}
+                className="hover:text-white underline"
+              >
+                + Add Another Boxing Ring
+              </button>
+              <button
+                onClick={() => navigateTo('mma-cages')}
+                className="hover:text-white underline"
+              >
+                + Add Another MMA Cage
+              </button>
+            </div>
+          </div>
+
+          {/* Enquiry Form on Right (Col 8-12) */}
+          <div className="lg:col-span-5 bg-[#141414] border border-zinc-800 p-6 sm:p-8 rounded space-y-6">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="w-2 h-2 rounded-full bg-[#E10B1F]"></span>
+                <span className="text-xs font-bold uppercase tracking-widest text-[#E10B1F]">
+                  DISPATCH LOGISTICS
+                </span>
+              </div>
+              <h2 className="text-2xl font-display uppercase tracking-wide text-white">
+                REQUEST FACTORY QUOTATION
+              </h2>
+              <p className="text-xs text-zinc-400 mt-1">
+                Enter your details and click below to dispatch your enquiry straight to our manufacturing desk on WhatsApp.
+              </p>
+            </div>
+
+            <form onSubmit={handleSendEnquiry} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300 mb-1">
+                  Full Name / Gym Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Aryan Sharma (Iron Fist Combat Club)"
+                  value={customer.name}
+                  onChange={(e) => setCustomer({ ...customer, name: e.target.value })}
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-sm focus:border-[#E10B1F] outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300 mb-1">
+                  WhatsApp Contact Number *
+                </label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="+91 98765 43210"
+                  value={customer.phone}
+                  onChange={(e) => setCustomer({ ...customer, phone: e.target.value })}
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-sm focus:border-[#E10B1F] outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300 mb-1">
+                  City / State (For Freight & Install Quote) *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Bangalore, Karnataka"
+                  value={customer.city}
+                  onChange={(e) => setCustomer({ ...customer, city: e.target.value })}
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-sm focus:border-[#E10B1F] outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300 mb-1">
+                  Notes / Ceiling Height / Delivery Timeline (Optional)
+                </label>
+                <textarea
+                  rows="3"
+                  placeholder="e.g. Opening next month. Ceiling height is 14 ft. Need logo printing on canvas..."
+                  value={customer.notes}
+                  onChange={(e) => setCustomer({ ...customer, notes: e.target.value })}
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-xs focus:border-[#E10B1F] outline-none"
+                ></textarea>
+              </div>
+
+              {/* Big Red Button */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full chamfer-btn bg-[#E10B1F] hover:bg-[#c80718] text-white py-4 font-display text-lg tracking-widest uppercase glow-red transition-all flex items-center justify-center gap-2 group cursor-pointer"
+              >
+                <span>{isSubmitting ? 'PREPARING ENQUIRY...' : 'SEND ENQUIRY ON WHATSAPP'}</span>
+                <span className="text-xl group-hover:translate-x-1 transition-transform">↗</span>
+              </button>
+
+              {/* Secondary Direct WhatsApp Link */}
+              <div className="text-center pt-2">
+                <button
+                  type="button"
+                  onClick={handleDirectChat}
+                  className="text-xs text-zinc-400 hover:text-white underline font-semibold"
+                >
+                  Or just chat with us directly on WhatsApp
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+// --- MODULE: CustomizePage.jsx ---
+
+
+
+
+function CustomizePage({ navigateTo, onOpenRentalModal }) {
+  const [selectedType, setSelectedType] = useState('ring'); // 'ring' or 'cage'
+  const [currentStep, setCurrentStep] = useState(1); // 1 = Type, 2 = Specs, 3 = Photos & Contact
+
+  // Boxing Ring Custom Specs
+  const [ringSpecs, setRingSpecs] = useState({
+    elevation: '3 ft (≈100 cm) Pro Level',
+    sizePreset: '20×20 ft',
+    customSize: '',
+    ropeColors: 'Black & Fight Red',
+    canvasColor: 'Deep Black (#0A0A0A)',
+    cornerPadsColor: '2 Fight Red, 2 Deep Black',
+    branding: true,
+    quantity: 1,
+    additionalNotes: ''
+  });
+
+  // MMA Cage Custom Specs
+  const [cageSpecs, setCageSpecs] = useState({
+    shape: 'Octagon (8-Sided)',
+    diameter: '24 ft Pro Diameter',
+    customDiameter: '',
+    elevation: '3 ft (≈100 cm) Pro Championship',
+    fenceHeight: '6 ft Competition Standard',
+    doors: '2 Doors (Fighter & Medic)',
+    paddingColor: 'Deep Black with Red Accents',
+    branding: true,
+    stairs: true,
+    quantity: 1,
+    additionalNotes: ''
+  });
+
+  // Photo Upload State (up to 5 files)
+  const [files, setFiles] = useState([]);
+  const [filePreviews, setFilePreviews] = useState([]);
+
+  // Contact Info
+  const [contact, setContact] = useState({
+    name: '',
+    phone: '',
+    city: ''
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  // File Handlers
+  const handleFileChange = (e) => {
+    const selected = Array.from(e.target.files);
+    if (files.length + selected.length > 5) {
+      alert('You can upload a maximum of 5 reference photos or logo files.');
+      return;
+    }
+
+    const newFiles = [...files, ...selected].slice(0, 5);
+    setFiles(newFiles);
+
+    // Generate previews
+    const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
+    setFilePreviews(newPreviews);
+  };
+
+  const removeFile = (index) => {
+    const updatedFiles = files.filter((_, i) => i !== index);
+    setFiles(updatedFiles);
+    const updatedPreviews = filePreviews.filter((_, i) => i !== index);
+    setFilePreviews(updatedPreviews);
+  };
+
+  const handleSubmitCustomQuote = async (e) => {
+    e.preventDefault();
+    if (!contact.name.trim() || !contact.phone.trim() || !contact.city.trim()) {
+      alert('Please fill in your Name, Phone Number, and City.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const isRing = selectedType === 'ring';
+    const activeSpecs = isRing ? ringSpecs : cageSpecs;
+
+    // Prepare FormData for file upload & backend save
+    const formData = new FormData();
+    formData.append('type', selectedType);
+    formData.append('specs', JSON.stringify(activeSpecs));
+    formData.append('customer', JSON.stringify(contact));
+    files.forEach((file) => {
+      formData.append('photos', file);
+    });
+
+    // 1. Submit to backend / MongoDB
+    const result = await submitCustomEnquiry(formData);
+    const uploadedUrls = result.uploadedUrls || files.map(f => f.name);
+
+    setIsSubmitting(false);
+    setSubmitted(true);
+
+    // 2. Format WhatsApp message
+    const formattedMessage = formatCustomEnquiryMessage({
+      customData: {
+        type: selectedType,
+        ...activeSpecs,
+        size: isRing
+          ? (activeSpecs.customSize || activeSpecs.sizePreset)
+          : (activeSpecs.customDiameter || activeSpecs.diameter)
+      },
+      customer: contact,
+      uploadedUrls
+    });
+
+    // 3. Open WhatsApp
+    openWhatsApp(formattedMessage);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0A0A0A] text-white pt-24 pb-20">
+      {/* Header */}
+      <section className="relative py-12 px-4 sm:px-6 lg:px-8 border-b border-zinc-800 bg-[#0F0F0F] spotlight-top-red overflow-hidden">
+        {/* Shield Watermark */}
+        <img
+          src="./assets/fighter-forge-shield.png"
+          alt=""
+          aria-hidden="true"
+          className="shield-watermark right-[-5%] top-[-20%] w-[450px]"
+        />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-2">
+            <button onClick={() => navigateTo('home')} className="hover:text-white">
+              HOME
+            </button>
+            <span>/</span>
+            <span className="text-[#C9A24B]">CUSTOM ARENA BUILDER</span>
+          </div>
+
+          <div className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.25em] text-[#C9A24B] uppercase mb-2">
+            <span className="w-1.5 h-1.5 bg-[#C9A24B]"></span>
+            <span>CUSTOM GYM & ARENA ARCHITECTURE</span>
+          </div>
+          <h1 className="text-4xl sm:text-6xl font-display uppercase tracking-tight text-white leading-none">
+            CUSTOMIZE YOUR RING / CAGE
+          </h1>
+          <p className="text-sm sm:text-base text-zinc-400 mt-2 max-w-2xl leading-relaxed">
+            Configure custom sizes, frame heights, rope accents, post cushion pads, and upload your gym logo. Our CAD engineers will build your 3D arena blueprint.
+          </p>
+
+          {/* Step Progress Indicator */}
+          <div className="mt-8 flex items-center gap-3 sm:gap-6 border-t border-zinc-800/80 pt-6">
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-[#E10B1F] text-white text-xs font-bold flex items-center justify-center">
+                1
+              </span>
+              <span className="text-xs font-display tracking-wider uppercase text-white">
+                SELECT ARENA
+              </span>
+            </div>
+            <span className="text-zinc-600">→</span>
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-[#C9A24B] text-black text-xs font-bold flex items-center justify-center">
+                2
+              </span>
+              <span className="text-xs font-display tracking-wider uppercase text-white">
+                CONFIGURE SPECS
+              </span>
+            </div>
+            <span className="text-zinc-600">→</span>
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-zinc-800 text-zinc-300 text-xs font-bold flex items-center justify-center">
+                3
+              </span>
+              <span className="text-xs font-display tracking-wider uppercase text-zinc-400">
+                UPLOAD & WHATSAPP
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Interactive Form */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {/* Event Rental Alert Banner */}
+        <div className="mb-8 p-4 sm:p-5 bg-gradient-to-r from-[#17130C] via-[#121212] to-black border-2 border-[#C9A24B] rounded flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-lg">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#E10B1F] animate-ping"></span>
+              <span className="text-xs font-bold text-[#C9A24B] uppercase tracking-widest">
+                LOOKING FOR TEMPORARY EVENT RENTALS? (IPBL & PRO MMA)
+              </span>
+            </div>
+            <p className="text-xs text-zinc-300 leading-relaxed">
+              If you need a Boxing Ring or MMA Cage on rental for a fight night, tournament, or promotion anywhere in India, we provide turnkey setups with on-site crew and transport.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onOpenRentalModal}
+            className="chamfer-btn-sm bg-[#C9A24B] hover:bg-[#b8913a] text-black font-bold px-5 py-2.5 text-xs font-display tracking-widest uppercase glow-gold whitespace-nowrap self-start sm:self-auto"
+          >
+            RENT FOR EVENT (IPBL) ↗
+          </button>
+        </div>
+
+        {/* STEP 1: Two Large Cards (Ring vs Cage) */}
+        <div className="mb-10">
+          <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest block mb-3">
+            STEP 1: CHOOSE EQUIPMENT TYPE
+          </label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Box 1: Boxing Ring */}
+            <div
+              onClick={() => setSelectedType('ring')}
+              className={`p-6 bg-[#161616] border cursor-pointer transition-all duration-300 relative ${
+                selectedType === 'ring'
+                  ? 'border-[#E10B1F] bg-[#1a1213] glow-red'
+                  : 'border-zinc-800 hover:border-zinc-600'
+              }`}
+              style={{
+                clipPath: 'polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)'
+              }}
+            >
+              {selectedType === 'ring' && (
+                <div className="absolute top-3 right-3 text-[#E10B1F] text-xl font-bold">✓</div>
+              )}
+              <div className="text-xs font-bold uppercase tracking-wider text-[#E10B1F] mb-1">
+                4-ROPE PLATFORM
+              </div>
+              <h3 className="text-2xl font-display text-white uppercase tracking-wide">
+                CUSTOMIZE BOXING RING
+              </h3>
+              <p className="text-xs text-zinc-400 mt-2">
+                Floor-level to 3 ft Pro heights. Customizable ring canvas, corner cushions, and rope wrap colors.
+              </p>
+            </div>
+
+            {/* Box 2: MMA Cage */}
+            <div
+              onClick={() => setSelectedType('cage')}
+              className={`p-6 bg-[#161616] border cursor-pointer transition-all duration-300 relative ${
+                selectedType === 'cage'
+                  ? 'border-[#C9A24B] bg-[#1c1810] glow-gold'
+                  : 'border-zinc-800 hover:border-zinc-600'
+              }`}
+              style={{
+                clipPath: 'polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)'
+              }}
+            >
+              {selectedType === 'cage' && (
+                <div className="absolute top-3 right-3 text-[#C9A24B] text-xl font-bold">✓</div>
+              )}
+              <div className="text-xs font-bold uppercase tracking-wider text-[#C9A24B] mb-1">
+                8-SIDED / 6-SIDED
+              </div>
+              <h3 className="text-2xl font-display text-white uppercase tracking-wide">
+                CUSTOMIZE MMA CAGE
+              </h3>
+              <p className="text-xs text-zinc-400 mt-2">
+                Octagon or Hexagon geometry. Custom diameter, safety fence height, vinyl dipped mesh, and entry doors.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* STEP 2: Detailed Specification Form */}
+        <form onSubmit={handleSubmitCustomQuote} className="space-y-10">
+          <div className="bg-[#141414] border border-zinc-800 p-6 sm:p-10 rounded space-y-6">
+            <div className="border-b border-zinc-800 pb-4">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#E10B1F]">
+                STEP 2: SPECIFICATIONS
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-display text-white uppercase tracking-wide mt-1">
+                {selectedType === 'ring' ? 'BOXING RING CUSTOM SPECIFICATIONS' : 'MMA CAGE CUSTOM SPECIFICATIONS'}
+              </h2>
+            </div>
+
+            {/* Form Fields for BOXING RING */}
+            {selectedType === 'ring' && (
+              <div className="space-y-6">
+                {/* Elevation Type */}
+                <div>
+                  <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">
+                    Elevation Type & Height
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {['Floor-Level (0 ft)', '1–2 ft Training / Event', '3 ft (≈100 cm) Pro Level'].map((elev) => (
+                      <button
+                        key={elev}
+                        type="button"
+                        onClick={() => setRingSpecs({ ...ringSpecs, elevation: elev })}
+                        className={`p-3 text-xs font-semibold rounded border text-left transition-all ${
+                          ringSpecs.elevation === elev
+                            ? elev.includes('3 ft')
+                              ? 'bg-[#C9A24B] text-black border-[#C9A24B] font-bold'
+                              : 'bg-[#E10B1F] text-white border-[#E10B1F]'
+                            : 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700'
+                        }`}
+                      >
+                        {elev}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Ring Size Preset */}
+                <div>
+                  <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">
+                    Ring Size
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {['12×12 ft', '14×14 ft', '16×16 ft', '18×18 ft', '20×20 ft', '24×24 ft Pro'].map((sz) => (
+                      <button
+                        key={sz}
+                        type="button"
+                        onClick={() => setRingSpecs({ ...ringSpecs, sizePreset: sz, customSize: '' })}
+                        className={`px-3.5 py-2 text-xs font-semibold rounded border transition-all ${
+                          ringSpecs.sizePreset === sz && !ringSpecs.customSize
+                            ? 'bg-white text-black border-white font-bold'
+                            : 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700'
+                        }`}
+                      >
+                        {sz}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="mt-3">
+                    <input
+                      type="text"
+                      placeholder="Or enter custom size (e.g. 17×17 ft, 21×21 ft)"
+                      value={ringSpecs.customSize}
+                      onChange={(e) => setRingSpecs({ ...ringSpecs, customSize: e.target.value })}
+                      className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-xs focus:border-[#E10B1F] outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Rope Colors & Canvas Color */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">
+                      Rope Wrapping Colors
+                    </label>
+                    <select
+                      value={ringSpecs.ropeColors}
+                      onChange={(e) => setRingSpecs({ ...ringSpecs, ropeColors: e.target.value })}
+                      className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-xs focus:border-[#E10B1F] outline-none"
+                    >
+                      <option value="Black & Fight Red">Black & Fight Red (Fighter Forge Signature)</option>
+                      <option value="All Black Stealth">All Black Stealth</option>
+                      <option value="Traditional Olympic (Red, White, Blue)">Traditional Olympic (Red, White, Blue)</option>
+                      <option value="Forge Gold & Black">Forge Gold & Black</option>
+                      <option value="Custom Scheme (Specify in notes)">Custom Scheme (Specify in notes)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">
+                      Canvas / Mat Color
+                    </label>
+                    <select
+                      value={ringSpecs.canvasColor}
+                      onChange={(e) => setRingSpecs({ ...ringSpecs, canvasColor: e.target.value })}
+                      className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-xs focus:border-[#E10B1F] outline-none"
+                    >
+                      <option value="Deep Black (#0A0A0A)">Deep Black (#0A0A0A) - Recommended</option>
+                      <option value="Fight Red (#E10B1F)">Fight Red (#E10B1F)</option>
+                      <option value="Charcoal Gray">Charcoal Gray</option>
+                      <option value="Royal Blue">Royal Blue</option>
+                      <option value="Pure White Canvas">Pure White Canvas</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Corner Pads & Branding Toggle */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">
+                      Corner Pads Configuration
+                    </label>
+                    <select
+                      value={ringSpecs.cornerPadsColor}
+                      onChange={(e) => setRingSpecs({ ...ringSpecs, cornerPadsColor: e.target.value })}
+                      className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-xs focus:border-[#E10B1F] outline-none"
+                    >
+                      <option value="2 Fight Red, 2 Deep Black">2 Fight Red, 2 Deep Black (Pro Style)</option>
+                      <option value="1 Red, 1 Blue, 2 White">1 Red, 1 Blue, 2 White (Amateur Sanctioned)</option>
+                      <option value="All 4 Black with Gold Logos">All 4 Black with Gold Logos</option>
+                      <option value="All 4 Red">All 4 Red</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">
+                      Gym Logo on Canvas & Pads?
+                    </label>
+                    <div className="flex items-center gap-3 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setRingSpecs({ ...ringSpecs, branding: true })}
+                        className={`flex-1 py-2.5 text-xs font-bold rounded border ${
+                          ringSpecs.branding
+                            ? 'bg-[#C9A24B] text-black border-[#C9A24B]'
+                            : 'bg-zinc-900 border-zinc-800 text-zinc-400'
+                        }`}
+                      >
+                        YES (Include Logo Branding)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setRingSpecs({ ...ringSpecs, branding: false })}
+                        className={`flex-1 py-2.5 text-xs font-bold rounded border ${
+                          !ringSpecs.branding
+                            ? 'bg-zinc-700 text-white border-zinc-600'
+                            : 'bg-zinc-900 border-zinc-800 text-zinc-400'
+                        }`}
+                      >
+                        NO (Standard Fighter Forge)
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Form Fields for MMA CAGE */}
+            {selectedType === 'cage' && (
+              <div className="space-y-6">
+                {/* Cage Shape & Elevation */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">
+                      Cage Geometry Shape
+                    </label>
+                    <select
+                      value={cageSpecs.shape}
+                      onChange={(e) => setCageSpecs({ ...cageSpecs, shape: e.target.value })}
+                      className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-xs focus:border-[#C9A24B] outline-none"
+                    >
+                      <option value="Octagon (8-Sided)">Octagon (8-Sided) - UFC Championship Standard</option>
+                      <option value="Hexagon (6-Sided)">Hexagon (6-Sided) - Space-Optimized</option>
+                      <option value="Circular / Round Cage">Circular / Round Cage</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">
+                      Elevation Platform
+                    </label>
+                    <select
+                      value={cageSpecs.elevation}
+                      onChange={(e) => setCageSpecs({ ...cageSpecs, elevation: e.target.value })}
+                      className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-xs focus:border-[#C9A24B] outline-none"
+                    >
+                      <option value="Floor-Level (0 ft Flush)">Floor-Level (0 ft Flush ground mounting)</option>
+                      <option value="1–2 ft Elevated Arena">1–2 ft Elevated Arena (Showcase & Tournaments)</option>
+                      <option value="3 ft (≈100 cm) Pro Championship">3 ft (≈100 cm) Pro Championship Height (Gold)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Diameter */}
+                <div>
+                  <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">
+                    Cage Diameter / Footprint
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {['16 ft Diameter', '20 ft Diameter', '24 ft Pro Diameter', '30 ft Stadium Octagon'].map((dm) => (
+                      <button
+                        key={dm}
+                        type="button"
+                        onClick={() => setCageSpecs({ ...cageSpecs, diameter: dm, customDiameter: '' })}
+                        className={`px-3.5 py-2 text-xs font-semibold rounded border transition-all ${
+                          cageSpecs.diameter === dm && !cageSpecs.customDiameter
+                            ? 'bg-[#C9A24B] text-black border-[#C9A24B] font-bold'
+                            : 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700'
+                        }`}
+                      >
+                        {dm}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="mt-3">
+                    <input
+                      type="text"
+                      placeholder="Or enter custom diameter (e.g. 18 ft, 22 ft, 27 ft)"
+                      value={cageSpecs.customDiameter}
+                      onChange={(e) => setCageSpecs({ ...cageSpecs, customDiameter: e.target.value })}
+                      className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-xs focus:border-[#C9A24B] outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Doors & Stairs */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">
+                      Security Access Doors
+                    </label>
+                    <select
+                      value={cageSpecs.doors}
+                      onChange={(e) => setCageSpecs({ ...cageSpecs, doors: e.target.value })}
+                      className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-xs focus:border-[#C9A24B] outline-none"
+                    >
+                      <option value="1 Heavy Door">1 Heavy Steel Entry Door</option>
+                      <option value="2 Doors (Fighter & Medic)">2 Doors (Fighter & Medic/Cutman Corners)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">
+                      Access Stairs (For Elevated)
+                    </label>
+                    <div className="flex items-center gap-3 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setCageSpecs({ ...cageSpecs, stairs: true })}
+                        className={`flex-1 py-2.5 text-xs font-bold rounded border ${
+                          cageSpecs.stairs
+                            ? 'bg-white text-black border-white'
+                            : 'bg-zinc-900 border-zinc-800 text-zinc-400'
+                        }`}
+                      >
+                        Include Stairs
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCageSpecs({ ...cageSpecs, stairs: false })}
+                        className={`flex-1 py-2.5 text-xs font-bold rounded border ${
+                          !cageSpecs.stairs
+                            ? 'bg-zinc-700 text-white border-zinc-600'
+                            : 'bg-zinc-900 border-zinc-800 text-zinc-400'
+                        }`}
+                      >
+                        No Stairs
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Additional Notes */}
+            <div>
+              <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">
+                Additional Notes & Arena Dimensions
+              </label>
+              <textarea
+                rows="3"
+                placeholder="Mention any custom post gusseting, ceiling height constraints, or venue requirements..."
+                value={selectedType === 'ring' ? ringSpecs.additionalNotes : cageSpecs.additionalNotes}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (selectedType === 'ring') {
+                    setRingSpecs({ ...ringSpecs, additionalNotes: val });
+                  } else {
+                    setCageSpecs({ ...cageSpecs, additionalNotes: val });
+                  }
+                }}
+                className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-xs focus:border-[#E10B1F] outline-none"
+              ></textarea>
+            </div>
+          </div>
+
+          {/* STEP 3: Photo & Logo Upload (Drag & Drop, up to 5) */}
+          <div className="bg-[#141414] border border-zinc-800 p-6 sm:p-10 rounded space-y-6">
+            <div className="border-b border-zinc-800 pb-4">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#C9A24B]">
+                STEP 3: REFERENCE PHOTOS & LOGO UPLOAD
+              </span>
+              <h2 className="text-2xl font-display text-white uppercase tracking-wide mt-1">
+                UPLOAD GYM LOGO OR REFERENCE DESIGNS
+              </h2>
+              <p className="text-xs text-zinc-400 mt-1">
+                Upload a reference photo or your logo and we'll quote on it. (Up to 5 images, JPG/PNG/WEBP, max 10MB each).
+              </p>
+            </div>
+
+            {/* Upload Dropzone */}
+            <div className="relative border-2 border-dashed border-zinc-700 hover:border-[#E10B1F] rounded-lg p-8 text-center transition-colors bg-black/40">
+              <input
+                type="file"
+                multiple
+                accept="image/png,image/jpeg,image/webp"
+                onChange={handleFileChange}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <div className="space-y-2 pointer-events-none">
+                <div className="w-12 h-12 mx-auto rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-zinc-400">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div className="text-sm font-bold text-white uppercase tracking-wider">
+                  DRAG & DROP FILES HERE OR <span className="text-[#E10B1F]">BROWSE FILES</span>
+                </div>
+                <p className="text-xs text-zinc-500">
+                  {files.length}/5 files selected. Supported: PNG, JPG, WEBP
+                </p>
+              </div>
+            </div>
+
+            {/* Preview Thumbnails */}
+            {filePreviews.length > 0 && (
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-2">
+                {filePreviews.map((preview, idx) => (
+                  <div key={idx} className="relative group rounded overflow-hidden border border-zinc-700 bg-black aspect-square">
+                    <img src={preview} alt={`Upload ${idx + 1}`} className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => removeFile(idx)}
+                      className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-90 hover:opacity-100"
+                    >
+                      ✕
+                    </button>
+                    <span className="absolute bottom-1 left-1 bg-black/80 text-[10px] text-zinc-300 px-1.5 py-0.5 rounded truncate max-w-[85%]">
+                      {files[idx]?.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Contact Fields */}
+            <div className="pt-4 border-t border-zinc-800 space-y-4">
+              <div className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
+                DISPATCH CONTACT DETAILS
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300 mb-1">
+                    Your Name / Academy *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Vikram Malhotra"
+                    value={contact.name}
+                    onChange={(e) => setContact({ ...contact, name: e.target.value })}
+                    className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-sm focus:border-[#E10B1F] outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300 mb-1">
+                    WhatsApp Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 98765 43210"
+                    value={contact.phone}
+                    onChange={(e) => setContact({ ...contact, phone: e.target.value })}
+                    className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-sm focus:border-[#E10B1F] outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300 mb-1">
+                    City / Venue Location *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Mumbai, Maharashtra"
+                    value={contact.city}
+                    onChange={(e) => setContact({ ...contact, city: e.target.value })}
+                    className="w-full bg-zinc-900 border border-zinc-700 text-white p-3 rounded text-sm focus:border-[#E10B1F] outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="pt-6">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full chamfer-btn bg-[#E10B1F] hover:bg-[#c80718] text-white py-4 font-display text-lg tracking-widest uppercase glow-red transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>{isSubmitting ? 'UPLOADING ASSETS & TRANSMITTING...' : 'REQUEST CUSTOM QUOTE ON WHATSAPP'}</span>
+                <span className="text-xl">↗</span>
+              </button>
+              <p className="text-center text-xs text-zinc-500 mt-2">
+                We will send your bespoke CAD blueprint & quotation directly to your WhatsApp.
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+
+// --- MODULE: StoriesPage.jsx ---
+
+
+
+function StoriesPage({ navigateTo, onOpenRentalModal }) {
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [selectedStory, setSelectedStory] = useState(null);
+
+  const categories = [
+    'All',
+    'Ring Engineering',
+    'Cage Standards',
+    'Athletes & Fight Science',
+    'Arena News & Events'
+  ];
+
+  const filteredStories = activeCategory === 'All'
+    ? siteConfig.stories
+    : siteConfig.stories.filter(s => s.category === activeCategory);
+
+  const handleArticleConsult = (story) => {
+    openWhatsApp(
+      `Hello Fighter Forge (+91 78389 66576), I was reading your story "${story.title}". I would like to consult with your engineering team regarding this arena setup.`
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0A0A0A] text-white pt-24 pb-20">
+      {/* Header */}
+      <section className="relative py-12 px-4 sm:px-6 lg:px-8 border-b border-zinc-800 bg-[#0F0F0F] spotlight-top-red overflow-hidden">
+        {/* Shield Watermark */}
+        <img
+          src="./assets/fighter-forge-shield.png"
+          alt=""
+          aria-hidden="true"
+          className="shield-watermark right-[-5%] top-[-20%] w-[450px]"
+        />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-2">
+            <button onClick={() => navigateTo('home')} className="hover:text-white">
+              HOME
+            </button>
+            <span>/</span>
+            <span className="text-[#E10B1F]">STORIES</span>
+          </div>
+
+          <div className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.25em] text-[#E10B1F] uppercase mb-2">
+            <span className="diagonal-slash scale-75"></span>
+            <span>COMBAT SCIENCE & ARENA ENGINEERING</span>
+          </div>
+          <h1 className="text-4xl sm:text-6xl font-display uppercase tracking-tight text-white leading-none">
+            STORIES & ARENA NEWS
+          </h1>
+          <p className="text-sm sm:text-base text-zinc-400 mt-2 max-w-2xl leading-relaxed">
+            Technical breakdowns of boxing ring acoustics, MMA cage geometry, fighter biomechanics, and championship arena engineering.
+          </p>
+
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap gap-2 mt-8 pt-6 border-t border-zinc-800/80">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-4 py-2 text-xs font-display tracking-widest uppercase rounded border transition-all ${
+                  activeCategory === cat
+                    ? 'bg-[#E10B1F] border-[#E10B1F] text-white glow-red'
+                    : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stories Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredStories.map((story) => (
+            <article
+              key={story.id}
+              onClick={() => setSelectedStory(story)}
+              className="bg-[#141414] border border-zinc-800 hover:border-[#E10B1F] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer group hover:-translate-y-1.5 hover:shadow-[0_0_30px_rgba(225,11,31,0.2)]"
+              style={{
+                clipPath: 'polygon(14px 0%, 100% 0%, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0% 100%, 0% 14px)'
+              }}
+            >
+              {/* Image */}
+              <div className="relative h-56 w-full overflow-hidden bg-black">
+                <img
+                  src={story.image}
+                  alt={story.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108 opacity-85 group-hover:opacity-100"
+                  loading="lazy"
+                />
+                <div className="absolute top-3 left-3 bg-black/80 border border-zinc-700 px-2.5 py-1 rounded text-[10px] font-bold text-[#E10B1F] uppercase tracking-wider">
+                  {story.category}
+                </div>
+                <div className="absolute top-3 right-3 bg-black/80 px-2 py-0.5 rounded text-[10px] text-zinc-400 font-mono">
+                  {story.readTime}
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div>
+                  <div className="text-[11px] text-zinc-500 font-sans mb-1">
+                    {story.date} • by {story.author}
+                  </div>
+                  <h2 className="text-xl font-display text-white tracking-wide uppercase group-hover:text-[#E10B1F] transition-colors leading-snug">
+                    {story.title}
+                  </h2>
+                  <p className="text-xs text-zinc-400 mt-2 line-clamp-3 leading-relaxed">
+                    {story.excerpt}
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between">
+                  <div className="flex flex-wrap gap-1.5">
+                    {story.tags.slice(0, 2).map((t, idx) => (
+                      <span key={idx} className="text-[10px] bg-zinc-900 border border-zinc-800 text-zinc-400 px-2 py-0.5 rounded">
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="text-xs font-display tracking-widest text-[#E10B1F] group-hover:translate-x-1 transition-transform">
+                    READ STORY →
+                  </span>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      {/* FULL STORY READER MODAL */}
+      {selectedStory && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-fadeIn">
+          <div
+            className="relative w-full max-w-4xl bg-[#141414] border border-zinc-800 text-white shadow-2xl overflow-hidden max-h-[92vh] flex flex-col"
+            style={{
+              clipPath: 'polygon(16px 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%, 0% 16px)'
+            }}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedStory(null)}
+              className="absolute top-4 right-4 z-30 p-2.5 bg-black/80 hover:bg-[#E10B1F] border border-zinc-700 text-zinc-300 hover:text-white rounded-full transition-colors"
+            >
+              ✕
+            </button>
+
+            {/* Scrollable Article Body */}
+            <div className="overflow-y-auto p-6 sm:p-10 space-y-6">
+              {/* Header */}
+              <div className="space-y-3 border-b border-zinc-800 pb-6">
+                <div className="flex items-center gap-3 text-xs">
+                  <span className="bg-[#E10B1F]/20 border border-[#E10B1F] text-[#E10B1F] px-2.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                    {selectedStory.category}
+                  </span>
+                  <span className="text-zinc-400 font-mono">{selectedStory.date}</span>
+                  <span className="text-zinc-600">•</span>
+                  <span className="text-zinc-400 font-mono">{selectedStory.readTime}</span>
+                </div>
+
+                <h1 className="text-3xl sm:text-5xl font-display text-white uppercase tracking-tight leading-tight">
+                  {selectedStory.title}
+                </h1>
+
+                <div className="text-xs text-zinc-400 flex items-center gap-2 pt-1">
+                  <span className="w-2 h-2 rounded-full bg-[#E10B1F]"></span>
+                  <span>Authored by: <strong className="text-zinc-200">{selectedStory.author}</strong></span>
+                </div>
+              </div>
+
+              {/* Featured Image */}
+              <div className="h-64 sm:h-96 w-full rounded overflow-hidden bg-black">
+                <img
+                  src={selectedStory.image}
+                  alt={selectedStory.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Formatted Markdown Content */}
+              <div className="text-zinc-300 text-sm sm:text-base leading-relaxed space-y-4 font-sans whitespace-pre-line">
+                {selectedStory.content}
+              </div>
+
+              {/* Tags */}
+              <div className="pt-6 border-t border-zinc-800 flex flex-wrap gap-2">
+                {selectedStory.tags.map((t, idx) => (
+                  <span key={idx} className="text-xs bg-zinc-900 border border-zinc-800 text-zinc-300 px-3 py-1 rounded">
+                    #{t}
+                  </span>
+                ))}
+              </div>
+
+              {/* Bottom Quote Banner */}
+              <div className="mt-8 p-6 bg-gradient-to-r from-[#181410] to-[#141414] border border-[#C9A24B]/50 rounded flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                  <h4 className="text-xl font-display text-white uppercase tracking-wider">
+                    NEED THIS ARENA SPECIFICATION IN YOUR GYM?
+                  </h4>
+                  <p className="text-xs text-zinc-400 mt-1">
+                    Our structural engineers will provide tailored blueprints and factory pricing for your facility.
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleArticleConsult(selectedStory)}
+                  className="chamfer-btn bg-[#C9A24B] hover:bg-[#b8913a] text-black font-bold px-6 py-3 text-xs font-display tracking-widest uppercase glow-gold whitespace-nowrap"
+                >
+                  CONSULT ON WHATSAPP ↗
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+// --- MODULE: App.jsx ---
+
+
+
+
+
+
+
+
+
+
+// Pages
+
+
+
+
+
+
+function App() {
+  const [currentPage, setCurrentPage] = useState(() => {
+    const hash = window.location.hash.replace('#/', '').replace('#', '');
+    if (['home', 'boxing-rings', 'mma-cages', 'customize', 'stories', 'cart'].includes(hash)) {
+      return hash;
+    }
+    return 'home';
+  });
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isGearModalOpen, setIsGearModalOpen] = useState(false);
+  const [isRentalModalOpen, setIsRentalModalOpen] = useState(false);
+  const [preselectedRentalArena, setPreselectedRentalArena] = useState(null);
+
+  const openRentalModal = (arena = null) => {
+    setPreselectedRentalArena(arena);
+    setIsRentalModalOpen(true);
+  };
+
+  // Sync hash routing with page state
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#/', '').replace('#', '');
+      if (['home', 'boxing-rings', 'mma-cages', 'customize', 'stories', 'cart'].includes(hash)) {
+        setCurrentPage(hash);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigateTo = (page) => {
+    setCurrentPage(page);
+    window.location.hash = `#/${page}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <CartProvider>
+      <div className="min-h-screen bg-[#0A0A0A] text-white flex flex-col font-sans selection:bg-[#E10B1F] selection:text-white bg-concrete-grain">
+        {/* Loading Screen on Entry */}
+        {isLoading && <LoadingScreen onFinish={() => setIsLoading(false)} />}
+
+        {/* Global Sticky Navbar */}
+        <Navbar
+          currentPage={currentPage}
+          navigateTo={navigateTo}
+          onOpenRentalModal={() => openRentalModal()}
+        />
+
+        {/* Active Page View */}
+        <main className="flex-1">
+          {currentPage === 'home' && (
+            <HomePage
+              navigateTo={navigateTo}
+              onOpenGearCommunity={() => setIsGearModalOpen(true)}
+              onOpenRentalModal={() => openRentalModal()}
+            />
+          )}
+          {currentPage === 'boxing-rings' && (
+            <BoxingRingsPage
+              navigateTo={navigateTo}
+              onOpenRentalModal={() => openRentalModal('Boxing Ring (3 ft Pro Competition - IPBL Standard)')}
+            />
+          )}
+          {currentPage === 'mma-cages' && (
+            <MmaCagesPage
+              navigateTo={navigateTo}
+              onOpenRentalModal={() => openRentalModal('MMA Cage (24 ft Pro Championship Octagon)')}
+            />
+          )}
+          {currentPage === 'customize' && (
+            <CustomizePage
+              navigateTo={navigateTo}
+              onOpenRentalModal={() => openRentalModal()}
+            />
+          )}
+          {currentPage === 'stories' && (
+            <StoriesPage
+              navigateTo={navigateTo}
+              onOpenRentalModal={() => openRentalModal()}
+            />
+          )}
+          {currentPage === 'cart' && (
+            <CartEnquiryPage
+              navigateTo={navigateTo}
+              onOpenRentalModal={() => openRentalModal()}
+            />
+          )}
+        </main>
+
+        {/* Global Footer */}
+        <Footer
+          navigateTo={navigateTo}
+          onOpenGearCommunity={() => setIsGearModalOpen(true)}
+          onOpenRentalModal={() => openRentalModal()}
+        />
+
+        {/* Floating WhatsApp Quick Action Button */}
+        <FloatingWhatsApp />
+
+        {/* Quick View Spec Modal */}
+        <QuickViewModal />
+
+        {/* Stylish Add-To-Cart Toast */}
+        <Toast navigateTo={navigateTo} />
+
+        {/* Gear Community & Idea Builder Modal */}
+        <GearCommunityModal
+          isOpen={isGearModalOpen}
+          onClose={() => setIsGearModalOpen(false)}
+        />
+
+        {/* Event Rental Modal (IPBL & Pro MMA) */}
+        <EventRentalModal
+          isOpen={isRentalModalOpen}
+          onClose={() => setIsRentalModalOpen(false)}
+          preselectedArena={preselectedRentalArena}
+        />
+      </div>
+    </CartProvider>
+  );
+}
+
+
+// --- MOUNT APPLICATION ---
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(<App />);
+}

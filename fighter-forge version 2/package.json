@@ -1,0 +1,20 @@
+{
+  "name": "fighter-forge",
+  "version": "1.0.0",
+  "description": "FIGHTER FORGE — Premium Boxing Rings & MMA Cages Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "backend:python": "uvicorn backend.main:app --reload --port 8000"
+  },
+  "keywords": [
+    "boxing-rings",
+    "mma-cages",
+    "octagon",
+    "combat-sports",
+    "fighter-forge"
+  ],
+  "author": "Fighter Forge",
+  "license": "UNLICENSED"
+}
